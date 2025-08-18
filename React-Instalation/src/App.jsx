@@ -9,9 +9,10 @@ function App() {
 
   <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit dolor a blanditiis. Harum ducimus aspernatur modi repellendus laborum molestiae fuga.</p>
 
-<footer>all rights reserved</footer>
+<footer>all rights r eserved</footer>
     </>
-  )
+ 
+)
 }
 
 export default App

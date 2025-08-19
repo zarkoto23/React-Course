@@ -6,7 +6,7 @@ function About(){
 
                     <div className="col-md-offset-3 col-md-6 col-sm-12">
                          <div className="section-title">
-                              <h1>Professional Team for you</h1>
+                              <h1>Professional asdfsdfsd for you</h1>
                          </div>
                     </div>
 

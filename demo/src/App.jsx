@@ -1,6 +1,9 @@
 import About from "./components/About";
 import Hero from "./components/Hero";
 import Menu from "./components/Menu";
+import Submit from "./components/Submit";
+import Testimonial from "./components/testimonial";
+
 
 
 function App() {
@@ -8,7 +11,11 @@ function App() {
     <div>
       <Hero />
       <Menu />
-      <About />
+      {/* <About /> */}
+      <Testimonial />
+      {/* <Submit /> */}
+
+
 
 
     </div>

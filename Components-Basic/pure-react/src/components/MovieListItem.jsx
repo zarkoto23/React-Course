@@ -13,7 +13,7 @@ export default function MovieListItem(props){
 
             </main>
             <footer>
-                <p>Director:{props.movie.director}, Year:{props.movie.year}</p>
+                <p>Director:<strong>{props.movie.director}</strong>, Year:{props.movie.year}</p>
 
             </footer>
 

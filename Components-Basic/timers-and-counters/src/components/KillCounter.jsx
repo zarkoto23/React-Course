@@ -3,24 +3,33 @@ import { useState } from "react";
 export default function KillCounter() {
   const [count, setCount] = useState(0);
 
+  const isMax=count>=10
+
   const incraseCountClickHandler = () => {
     setCount(count + 1);
   };
 
-  if (count > 10) {
-    return (
-      <>
-        <hr />
-        <h2>bravo</h2>
-        <hr />
-      </>
-    );
-  }
+//   if (count > 10) {
+//     return (
+//       <>
+//         <hr />
+//         <h2>bravo</h2>
+//         <hr />
+//       </>
+//     );
+//   }
 
+const decrementCountClickHandler= ()=>{
+    setCount(count-1)
+}
   let title = <h2>Kill counterrrr</h2>;
 
-  if (count == 2) {
-    title = <h1>its two</h1>;
+  if (count > 10) {
+    return(
+        <>
+    title = <h1>game over</h1>
+    </>
+    )
   }
 
   switch (count) {
@@ -37,8 +46,14 @@ export default function KillCounter() {
       <hr />
       {title}
       <div>{count}</div>
-      <hr />
       <button onClick={incraseCountClickHandler}>+</button>
+      {count>6
+        ? <button onClick={decrementCountClickHandler}>-</button>
+        : <p>no decrement yet!</p>
+    
+    }
+    {isMax&& <p>watch out</p>}
+      <hr />
     </>
   );
 }

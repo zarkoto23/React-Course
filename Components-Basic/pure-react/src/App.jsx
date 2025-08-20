@@ -1,3 +1,4 @@
+import MovieList from "./components/MovieList"
 
 const movies=[
   {
@@ -93,7 +94,7 @@ function App() {
 
   return (
     <>
-
+    <MovieList movies={movies}/>
     </>
   )
 }

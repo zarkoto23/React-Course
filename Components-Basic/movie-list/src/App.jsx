@@ -6,7 +6,7 @@ function App() {
 
   return (
     <>
-    <Header/>
+    <Header title="hello from propssss" subHeading="hahaha"/>
     <Body/>
     </>
   )

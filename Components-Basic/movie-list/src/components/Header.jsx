@@ -1,8 +1,10 @@
-export default function Header(){
+export default function Header(props){
+    // console.log(props.title);
+    
     return(
         <>
-     <h1>hello world</h1>
-    <h2>react is awesome</h2>
+     <h1>{props.subHeading}</h1>
+    <h2>{props.title}</h2>
     </>
     )
 }

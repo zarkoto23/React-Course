@@ -4,22 +4,41 @@ import Item from "./Item";
 
 function App() {
   const [todos, setTodos] = useState([]);
+  const [isPending, setIsPending]=useState(true)
 
   useEffect(() => {
     fetch("http://localhost:3030/jsonstore/todos")
       .then((res) => res.json())
       .then((data) => {
         setTodos(Object.values(data));
+        setIsPending(false)
       })
       .catch((err) => console.log(err.message));
   }, []);
 
   function toggleStatus(id) {
+
+      const todoToUpdate = todos.find(todo => todo._id === id);
+  if (!todoToUpdate) return;
+
     setTodos((state) =>
       state.map((todo) =>
         todo._id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
       )
     );
+
+
+
+  const updatedTodo = { ...todoToUpdate, isCompleted: !todoToUpdate.isCompleted };
+
+    fetch(`http://localhost:3030/jsonstore/todos/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(updatedTodo) // PUT изисква целия обект
+  }).catch(err=>console.log(err.message));
+  
   }
 
   return (
@@ -45,11 +64,13 @@ function App() {
             <button className="btn">+ Add new Todo</button>
           </div>
           <div className="table-wrapper">
-            {/*<div className="loading-container">
+           
+           {isPending && 
+            <div className="loading-container">
           <div className="loading-spinner">
             <span className="loading-spinner-text">Loading</span>
           </div>
-        </div> */}
+        </div>}
 
             <table className="table">
               <thead>

@@ -111,6 +111,7 @@ body {
   background-color: #317b6a;
   border-radius: 0;
 }
+
 .add-btn-container button:hover {
   box-shadow: 1px 2px 8px rgb(48, 48, 48);
 }
@@ -173,6 +174,7 @@ body {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

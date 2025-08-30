@@ -1,17 +1,25 @@
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
+import Item from './Item'
 
 function App() {
+
+  const [todos, setTodos]=useState([])
 
   useEffect(()=>{
 
     fetch('http://localhost:3030/jsonstore/todos')
     .then(res=>res.json())
-    .then(data=>console.log(data))
+    .then(data=>{
+        setTodos(Object.values(data))
+
+    })
     .catch(err=>console.log(err.message))
 
-  })
+    
+
+  },[])
 
 
 
@@ -73,32 +81,8 @@ function App() {
 
 
 
-            <tr className="todo is-completed">
-              <td>Give dog a bath</td>
-              <td>Complete</td>
-              <td className="todo-action">
-                <button className="btn todo-btn">Change status</button>
-              </td>
-            </tr>
+            {todos.map(todo=><Item key={todo._id} todo={todo}/>)}
 
-
-        
-
-
-
-
-            <tr className="todo">
-              <td>Vacuum floor</td>
-              <td>Incomplete</td>
-              <td className="todo-action">
-                <button className="btn todo-btn">Change status</button>
-              </td>
-            </tr>
-
-
-
-      
-          
           </tbody>
         </table>
       </div>

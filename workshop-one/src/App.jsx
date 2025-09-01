@@ -1,17 +1,15 @@
 import "./App.css"
+import Footer from "./components/Footer"
+import Header from "./components/Header"
 
 function App() {
 
   return (
     <>
+    <Header/>
  
  
-  {/* <!-- Header component --> */}
-  <header className="header">
-    <div className="logo">
-      <span className="course">React Workshop - September 2023</span>
-    </div>
-  </header>
+
 
   {/* <!-- Main component  --> */}
   <main className="main">
@@ -457,13 +455,11 @@ function App() {
     </div> --> */}
 
   </main>
-  {/* <!-- Footer component  --> */}
-  <footer className="footer">
-    <p>This site is designed to be used for training purposes at SoftUni.</p>
-  </footer>
 
+<Footer/>
     </>
   )
 }
+
 
 export default App

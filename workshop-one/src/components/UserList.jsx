@@ -17,7 +17,7 @@ export default function UserList() {
             
         })
         //!.catch()
-    })
+    },[])
 
     const createUserClickHandler=()=>{
         setShowCreate(true)
@@ -27,13 +27,23 @@ export default function UserList() {
         setShowCreate(false)
     }
 
+    const saveCreateUserClickHandler=(e)=>{
+        e.preventDefault()
+        const formData=new FormData(e.target)
+        const formValues=Object.fromEntries(formData)
+        
+    }
+
 
     
   return (
     <section className="card users-container">
       <Search />
 
-      {showCreate && <UserCreate onClose={closeCreateUserClickHandler}/>}
+      {showCreate && <UserCreate 
+      onClose={closeCreateUserClickHandler}
+      onSave={saveCreateUserClickHandler}
+      />}
 
       <div className="table-wrapper"> 
         <div>

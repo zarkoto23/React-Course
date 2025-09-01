@@ -14,11 +14,8 @@ export default function UserList() {
             setUsers(result)
             
         })
+        //!.catch()
     })
-
-
-
-
     
   return (
     <section className="card users-container">
@@ -178,7 +175,12 @@ export default function UserList() {
             </tr>
           </thead>
           <tbody>
-            <UserListItem/>
+            {users.map(user=>
+            <UserListItem
+            key={user._id}
+            {...user}
+            />    
+            )}
           </tbody>
         </table>
       </div>

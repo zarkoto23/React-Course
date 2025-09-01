@@ -7,55 +7,57 @@ import userService from "../services/userService";
 import UserCreate from "./UserCreate";
 
 export default function UserList() {
-    const [users, setUsers]=useState([])
-    const [showCreate, setShowCreate]=useState(false)
+  const [users, setUsers] = useState([]);
+  const [showCreate, setShowCreate] = useState(false);
 
-    useEffect(()=>{
-        userService.getAll()
-        .then(result=>{
-            setUsers(result)
-            
-        })
-        //!.catch()
-    },[])
+  useEffect(() => {
+    userService.getAll().then((result) => {
+      setUsers(result);
+    });
+    //!.catch()
+  }, []);
 
-    const createUserClickHandler=()=>{
-        setShowCreate(true)
-    }
+  const createUserClickHandler = () => {
+    setShowCreate(true);
+  };
 
-    const closeCreateUserClickHandler=()=>{
-        setShowCreate(false)
-    }
+  const closeCreateUserClickHandler = () => {
+    setShowCreate(false);
+  };
 
-    const saveCreateUserClickHandler=(e)=>{
-        e.preventDefault()
-        const formData=new FormData(e.target)
-        const formValues=Object.fromEntries(formData)
-        
-    }
+  const saveCreateUserClickHandler = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const userData = Object.fromEntries(formData);
 
+    const newUser = await userService.create(userData);
+    setUsers((state) => [...state,newUser] );
 
-    
+    setShowCreate(false)
+  };
+
   return (
     <section className="card users-container">
       <Search />
 
-      {showCreate && <UserCreate 
-      onClose={closeCreateUserClickHandler}
-      onSave={saveCreateUserClickHandler}
-      />}
+      {showCreate && (
+        <UserCreate
+          onClose={closeCreateUserClickHandler}
+          onSave={saveCreateUserClickHandler}
+        />
+      )}
 
-      <div className="table-wrapper"> 
+      <div className="table-wrapper">
         <div>
-        {/* <!-- Overlap components  --> */}
+          {/* <!-- Overlap components  --> */}
 
-        {/* <!-- <div className="loading-shade"> -->
+          {/* <!-- <div className="loading-shade"> -->
         <!-- Loading spinner  -->
         <!-- <div className="spinner"></div> -->
 <!-- 
         No users added yet  --> */}
 
-        {/* <!-- <div className="table-overlap">
+          {/* <!-- <div className="table-overlap">
               <svg
                 aria-hidden="true"
                 focusable="false"
@@ -74,13 +76,11 @@ export default function UserList() {
               <h2>There is no users yet.</h2>
             </div> --> */}
 
-        {/* <!-- No content overlap component  --> */}
+          {/* <!-- No content overlap component  --> */}
 
-  
+          {/* <!-- On error overlap component  --> */}
 
-        {/* <!-- On error overlap component  --> */}
-
-        {/* <!-- <div className="table-overlap">
+          {/* <!-- <div className="table-overlap">
               <svg
                 aria-hidden="true"
                 focusable="false"
@@ -98,7 +98,7 @@ export default function UserList() {
               </svg>
               <h2>Failed to fetch</h2>
             </div> --> */}
-        {/* <!-- </div> --> */}
+          {/* <!-- </div> --> */}
         </div>
 
         <table className="table">
@@ -199,18 +199,17 @@ export default function UserList() {
             </tr>
           </thead>
           <tbody>
-            {users.map(user=>
-            <UserListItem
-            key={user._id}
-            {...user}
-            />    
-            )}
+            {users.map((user) => (
+              <UserListItem key={user._id} {...user} />
+            ))}
           </tbody>
         </table>
       </div>
 
       {/* <!-- New user button  --> */}
-      <button onClick={createUserClickHandler} className="btn-add btn">Add new user</button>
+      <button onClick={createUserClickHandler} className="btn-add btn">
+        Add new user
+      </button>
 
       <Pagination />
     </section>

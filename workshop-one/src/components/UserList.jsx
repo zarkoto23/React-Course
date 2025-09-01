@@ -1,13 +1,28 @@
+import { useEffect } from "react";
+
 import Pagination from "./Pagination";
 import Search from "./Search";
 import UserListItem from "./UserListItem";
+import userService from "../services/userService";
 
 export default function UserList() {
+
+    useEffect(()=>{
+        userService.getAll()
+        .then(result=>{
+            console.log(result);
+            
+        })
+    })
+
+
+
+
+    
   return (
     <section className="card users-container">
       <Search />
 
-      {/* <!-- Table component --> */}
       <div className="table-wrapper"> 
         <div>
         {/* <!-- Overlap components  --> */}
@@ -162,7 +177,6 @@ export default function UserList() {
             </tr>
           </thead>
           <tbody>
-            {/* <!-- Table row component --> */}
             <UserListItem/>
           </tbody>
         </table>

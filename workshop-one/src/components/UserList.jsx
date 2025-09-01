@@ -5,10 +5,12 @@ import Search from "./Search";
 import UserListItem from "./UserListItem";
 import userService from "../services/userService";
 import UserCreate from "./UserCreate";
+import UserInfo from "./userInfo";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
+  const [userIdInfo, setUserIdInfo] = useState(); //!undefined
 
   useEffect(() => {
     userService.getAll().then((result) => {
@@ -31,9 +33,13 @@ export default function UserList() {
     const userData = Object.fromEntries(formData);
 
     const newUser = await userService.create(userData);
-    setUsers((state) => [...state,newUser] );
+    setUsers((state) => [...state, newUser]);
 
-    setShowCreate(false)
+    setShowCreate(false);
+  };
+
+  const userInfoClickHandler = (userId) => {
+    setUserIdInfo(userId);
   };
 
   return (
@@ -46,6 +52,8 @@ export default function UserList() {
           onSave={saveCreateUserClickHandler}
         />
       )}
+
+      {userIdInfo && <UserInfo userId={userIdInfo} />}
 
       <div className="table-wrapper">
         <div>
@@ -200,7 +208,11 @@ export default function UserList() {
           </thead>
           <tbody>
             {users.map((user) => (
-              <UserListItem key={user._id} {...user} />
+              <UserListItem
+                key={user._id}
+                onInfoClick={userInfoClickHandler}
+                {...user}
+              />
             ))}
           </tbody>
         </table>

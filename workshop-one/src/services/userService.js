@@ -1,4 +1,3 @@
-
 const baseUrl = "http://localhost:3030/jsonstore/users";
 
 export default {
@@ -26,13 +25,18 @@ export default {
     return result;
   },
 
+  async getOne(userId) {
+    const response = await fetch(`${baseUrl}/${userId}`);
+    const user = await response.json();
 
-  async getOne(userId){
-    const response =await fetch(`${baseUrl}/${userId}`)
-    const user=await response.json()
+    return user;
+  },
 
-    return user
-
-
-  }
+  async delete(userId) {
+    const response = await fetch(`${baseUrl}/${userId}`, {
+      method: "DELETE",
+    });
+    const result = response.json();
+    return result;
+  },
 };

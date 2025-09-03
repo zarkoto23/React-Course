@@ -1,12 +1,9 @@
 import './App.css'
-import Create from './Create'
-import Delete from './Delete'
-import Details from './Details'
-import Footer from './Footer'
-import Header from './Header'
-import Pagination from './Pagination'
-import Spinner from './Spinner'
-import UserList from './UserList'
+
+import Footer from './components/Footer'
+import Header from './components/Header'
+import Pagination from './components/Pagination'
+import UserList from './components/UserList'
 
 function App() {
 
@@ -120,11 +117,7 @@ function App() {
 
     </section>
 
-    {/* <Create/> */}
-    {/* <Delete/> */}
-    {/* <Spinner/> */}
-    {/* <Details/> */}
-
+  
 
 
     

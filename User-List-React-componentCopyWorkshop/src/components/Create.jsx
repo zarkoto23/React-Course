@@ -92,7 +92,7 @@ export default function Create({onClose, onSave}) {
               </div>
             </div>
             <div id="form-actions">
-              <button id="action-save" className="btn" type="submit">Save</button>
+              <button id="action-save" className="btn" type="submit" >Save</button>
               <button id="action-cancel" className="btn" type="button" onClick={onClose}>
                 Cancel
               </button>

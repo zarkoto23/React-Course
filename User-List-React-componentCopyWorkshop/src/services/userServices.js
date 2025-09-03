@@ -21,7 +21,7 @@ export default {
 
   async create(userData){
     const {country, city, street, streetNumber,...postData}=userData
-    postData.adrress={country, city, street, streetNumber}
+    postData.address={country, city, street, streetNumber}
     postData.createdAt=new Date().toISOString()
     postData.updatedAt=new Date().toISOString()
 
@@ -48,9 +48,9 @@ export default {
     const user=await response.json()
     // console.log(user)
 
-   return user
     
-
+    
+    return user
   }
 
  

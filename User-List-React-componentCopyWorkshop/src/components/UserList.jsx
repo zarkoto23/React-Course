@@ -3,11 +3,14 @@ import UserListItem from "./UserListItem";
 import userServices from "../services/userServices";
 import Pagination from "./Pagination";
 import Create from "./Create";
+import Details from "./Details";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
   const [showCreateBtn, setShowCreateBtn] = useState(false);
   // const [closeCreateBtn, setCloseCreateBtn]=useState(false)
+  const [showInfo, setShowInfo] = useState(false);
+  const [selectedGetOne, setSelectedGetOne] = useState(null);
 
   useEffect(() => {
     userServices.getAll().then((result) => {
@@ -25,8 +28,17 @@ export default function UserList() {
     userServices
       .create(newUserData)
       .then((result) => setUsers([...users, result]));
-    console.log(newUserData);
+      setShowCreateBtn(false)
   }
+
+  const infoBtnClickHandler = (_id) => {
+    userServices.getOne(_id).then((result) => {
+      setSelectedGetOne(result);
+      setShowInfo(true);
+      // console.log(result, "Info");
+    });
+  };
+
 
   return (
     <main className="main">
@@ -178,7 +190,11 @@ export default function UserList() {
 
             <tbody>
               {users.map((user) => (
-                <UserListItem key={user._id} user={user} />
+                <UserListItem
+                  key={user._id}
+                  user={user}
+                  onInfoBtn={infoBtnClickHandler}
+                />
               ))}
             </tbody>
           </table>
@@ -192,6 +208,8 @@ export default function UserList() {
       {showCreateBtn && (
         <Create onClose={onCloseCreateHandler} onSave={onSaveClickHandler} />
       )}
+
+      {showInfo && <Details user={selectedGetOne} onCloseInfo={()=>setShowInfo(false)}/>}
     </main>
   );
 }

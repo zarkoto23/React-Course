@@ -14,45 +14,56 @@ export default {
       year: "numeric",
       month: "long",
       day: "numeric",
-    })
+    });
 
-    return formatedData
+    return formatedData;
   },
 
-  async create(userData){
-    const {country, city, street, streetNumber,...postData}=userData
-    postData.address={country, city, street, streetNumber}
-    postData.createdAt=new Date().toISOString()
-    postData.updatedAt=new Date().toISOString()
+  async create(userData) {
+    const { country, city, street, streetNumber, ...postData } = userData;
+    postData.address = { country, city, street, streetNumber };
+    postData.createdAt = new Date().toISOString();
+    postData.updatedAt = new Date().toISOString();
 
-    
-
-    const response=await fetch(`${baseUrl}`,{
-      method:'POST',
-      headers:{
-        'Content-Type':"Application/json",
-
+    const response = await fetch(`${baseUrl}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json",
       },
-      body:JSON.stringify(postData)
- 
-    })
- 
-     const result=await response.json()
+      body: JSON.stringify(postData),
+    });
 
-     return result
+    const result = await response.json();
+
+    return result;
   },
 
+  async update(userId, userData) {
+  const { country, city, street, streetNumber, ...postData } = userData;
 
-  async getOne(_id){
-    const response=await fetch(`${baseUrl}/${_id}`)
-    const user=await response.json()
+  postData.address = { country, city, street, streetNumber };
+
+  postData.updatedAt = new Date().toISOString();
+
+  const response = await fetch(`${baseUrl}/${userId}`, {
+    method: "PUT", 
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(postData),
+  });
+
+  const result = await response.json();
+
+  return result;
+},
+
+
+  async getOne(_id) {
+    const response = await fetch(`${baseUrl}/${_id}`);
+    const user = await response.json();
     // console.log(user)
 
-    
-    
-    return user
-  }
-
- 
-  
+    return user;
+  },
 };

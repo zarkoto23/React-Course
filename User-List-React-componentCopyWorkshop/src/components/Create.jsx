@@ -1,11 +1,11 @@
-export default function Create({onClose, onSave}) {
+export default function Create({onClose, onSave, initialData}) {
   return(
     <div className="overlay">
       <div className="backdrop" onClick={onClose}></div>
       <div className="modal">
         <div className="user-container">
           <header className="headers">
-            <h2>Edit User/Add User</h2>
+            <h2>{initialData?._id? 'Edit User' : 'Add User'}</h2>
             <button className="btn close" onClick={onClose}>
               <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark"
                 className="svg-inline--fa fa-xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -28,7 +28,7 @@ export default function Create({onClose, onSave}) {
                 <label htmlFor="lastName">Last name</label>
                 <div className="input-wrapper">
                   <span><i className="fa-solid fa-user"></i></span>
-                  <input id="lastName" name="lastName" type="text" />
+                  <input id="lastName" name="lastName" type="text" defaultValue={initialData?.lastName||''}/>
                 </div>
               </div>
             </div>

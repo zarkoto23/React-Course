@@ -11,6 +11,7 @@ export default function UserList() {
   // const [closeCreateBtn, setCloseCreateBtn]=useState(false)
   const [showInfo, setShowInfo] = useState(false);
   const [selectedGetOne, setSelectedGetOne] = useState(null);
+  const [editingUser, setEditinUser]=useState(null)
 
   useEffect(() => {
     userServices.getAll().then((result) => {
@@ -25,10 +26,22 @@ export default function UserList() {
   function onSaveClickHandler(e) {
     e.preventDefault();
     const newUserData = Object.fromEntries(new FormData(e.target));
+
+    if(editingUser?._id){
+      userServices.update(newUserData)
+      .then(result=>setUsers(users.map(u=>u._id===result._id?result:u)))
+      console.log('hoho');
+      setShowCreateBtn(false)
+      setEditinUser(null)
+
+    }else{
     userServices
       .create(newUserData)
       .then((result) => setUsers([...users, result]));
       setShowCreateBtn(false)
+      setEditinUser(null)
+
+    }
   }
 
   const infoBtnClickHandler = (_id) => {
@@ -38,6 +51,12 @@ export default function UserList() {
       // console.log(result, "Info");
     });
   };
+
+  const onEditClickHandler=(user)=>{
+    setEditinUser(user)
+    setShowCreateBtn(true)
+
+  }
 
 
   return (
@@ -194,19 +213,20 @@ export default function UserList() {
                   key={user._id}
                   user={user}
                   onInfoBtn={infoBtnClickHandler}
+                  onEditBtn={()=>onEditClickHandler(user)}
                 />
               ))}
             </tbody>
           </table>
         </div>
 
-        <button className="btn-add btn" onClick={() => setShowCreateBtn(true)}>
+        <button className="btn-add btn" onClick={() => {setShowCreateBtn(true) ;setEditinUser(null)}}>
           Add new user
         </button>
         <Pagination />
       </section>
       {showCreateBtn && (
-        <Create onClose={onCloseCreateHandler} onSave={onSaveClickHandler} />
+        <Create onClose={onCloseCreateHandler} onSave={onSaveClickHandler} initialData={editingUser} />
       )}
 
       {showInfo && <Details user={selectedGetOne} onCloseInfo={()=>setShowInfo(false)}/>}

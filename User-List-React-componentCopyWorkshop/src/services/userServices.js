@@ -41,12 +41,19 @@ export default {
   async update(userId, userData) {
   const { country, city, street, streetNumber, ...postData } = userData;
 
+  
+
   postData.address = { country, city, street, streetNumber };
 
+  postData._id = userId;
+
   postData.updatedAt = new Date().toISOString();
+  // postData.createdAt=userData.createdAt
+
+  console.log(postData);
 
   const response = await fetch(`${baseUrl}/${userId}`, {
-    method: "PUT", 
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
@@ -56,8 +63,8 @@ export default {
   const result = await response.json();
 
   return result;
-},
-
+}
+,
 
   async getOne(_id) {
     const response = await fetch(`${baseUrl}/${_id}`);

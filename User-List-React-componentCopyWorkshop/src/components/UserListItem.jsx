@@ -7,6 +7,10 @@ export default function UserListItem({
 
 
 }) {
+
+
+    // console.log(user);
+    
   return(
                 <tr>
               <td>

@@ -8,10 +8,9 @@ import Details from "./Details";
 export default function UserList() {
   const [users, setUsers] = useState([]);
   const [showCreateBtn, setShowCreateBtn] = useState(false);
-  // const [closeCreateBtn, setCloseCreateBtn]=useState(false)
   const [showInfo, setShowInfo] = useState(false);
   const [selectedGetOne, setSelectedGetOne] = useState(null);
-  const [editingUser, setEditinUser]=useState(null)
+  const [editingUser, setEditinUser] = useState(null);
 
   useEffect(() => {
     userServices.getAll().then((result) => {
@@ -27,20 +26,23 @@ export default function UserList() {
     e.preventDefault();
     const newUserData = Object.fromEntries(new FormData(e.target));
 
-    if(editingUser?._id){
-      userServices.update(newUserData)
-      .then(result=>setUsers(users.map(u=>u._id===result._id?result:u)))
-      console.log('hoho');
-      setShowCreateBtn(false)
-      setEditinUser(null)
+    if (editingUser?._id) {
+      const updatedData = { ...newUserData, createdAt: editingUser.createdAt };
 
-    }else{
-    userServices
-      .create(newUserData)
-      .then((result) => setUsers([...users, result]));
-      setShowCreateBtn(false)
-      setEditinUser(null)
-
+      userServices
+        .update(editingUser._id, updatedData)
+        .then((result) =>
+          setUsers(users.map((u) => (u._id === result._id ? result : u)))
+        );
+      setShowCreateBtn(false);
+      setEditinUser(null);
+      console.log("update");
+    } else {
+      userServices
+        .create(newUserData)
+        .then((result) => setUsers([...users, result]));
+      setShowCreateBtn(false);
+      setEditinUser(null);
     }
   }
 
@@ -48,16 +50,13 @@ export default function UserList() {
     userServices.getOne(_id).then((result) => {
       setSelectedGetOne(result);
       setShowInfo(true);
-      // console.log(result, "Info");
     });
   };
 
-  const onEditClickHandler=(user)=>{
-    setEditinUser(user)
-    setShowCreateBtn(true)
-
-  }
-
+  const onEditClickHandler = (user) => {
+    setEditinUser(user);
+    setShowCreateBtn(true);
+  };
 
   return (
     <main className="main">
@@ -213,23 +212,35 @@ export default function UserList() {
                   key={user._id}
                   user={user}
                   onInfoBtn={infoBtnClickHandler}
-                  onEditBtn={()=>onEditClickHandler(user)}
+                  onEditBtn={() => onEditClickHandler(user)}
                 />
               ))}
             </tbody>
           </table>
         </div>
 
-        <button className="btn-add btn" onClick={() => {setShowCreateBtn(true) ;setEditinUser(null)}}>
+        <button
+          className="btn-add btn"
+          onClick={() => {
+            setShowCreateBtn(true);
+            setEditinUser(null);
+          }}
+        >
           Add new user
         </button>
         <Pagination />
       </section>
       {showCreateBtn && (
-        <Create onClose={onCloseCreateHandler} onSave={onSaveClickHandler} initialData={editingUser} />
+        <Create
+          onClose={onCloseCreateHandler}
+          onSave={onSaveClickHandler}
+          initialData={editingUser}
+        />
       )}
 
-      {showInfo && <Details user={selectedGetOne} onCloseInfo={()=>setShowInfo(false)}/>}
+      {showInfo && (
+        <Details user={selectedGetOne} onCloseInfo={() => setShowInfo(false)} />
+      )}
     </main>
   );
 }

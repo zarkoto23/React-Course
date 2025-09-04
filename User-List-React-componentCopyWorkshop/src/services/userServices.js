@@ -39,37 +39,30 @@ export default {
   },
 
   async update(userId, userData) {
-  const { country, city, street, streetNumber, ...postData } = userData;
+    const { country, city, street, streetNumber, ...postData } = userData;
 
-  
+    postData.address = { country, city, street, streetNumber };
 
-  postData.address = { country, city, street, streetNumber };
+    postData._id = userId;
 
-  postData._id = userId;
+    postData.updatedAt = new Date().toISOString();
 
-  postData.updatedAt = new Date().toISOString();
-  // postData.createdAt=userData.createdAt
 
-  console.log(postData);
+    const response = await fetch(`${baseUrl}/${userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    });
 
-  const response = await fetch(`${baseUrl}/${userId}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(postData),
-  });
+    const result = await response.json();
 
-  const result = await response.json();
-
-  return result;
-}
-,
-
+    return result;
+  },
   async getOne(_id) {
     const response = await fetch(`${baseUrl}/${_id}`);
     const user = await response.json();
-    // console.log(user)
 
     return user;
   },

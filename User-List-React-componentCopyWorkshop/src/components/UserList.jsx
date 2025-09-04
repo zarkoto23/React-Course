@@ -36,7 +36,6 @@ export default function UserList() {
         );
       setShowCreateBtn(false);
       setEditinUser(null);
-      console.log("update");
     } else {
       userServices
         .create(newUserData)

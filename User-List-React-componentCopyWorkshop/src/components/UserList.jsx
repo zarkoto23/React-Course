@@ -4,6 +4,7 @@ import userServices from "../services/userServices";
 import Pagination from "./Pagination";
 import Create from "./Create";
 import Details from "./Details";
+import Delete from "./Delete";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
@@ -11,6 +12,10 @@ export default function UserList() {
   const [showInfo, setShowInfo] = useState(false);
   const [selectedGetOne, setSelectedGetOne] = useState(null);
   const [editingUser, setEditinUser] = useState(null);
+  const [showDelModal, setShowDelModal]=useState(false)
+  const [userToDel, setUserToDel]=useState(null)
+
+  
 
   useEffect(() => {
     userServices.getAll().then((result) => {
@@ -56,6 +61,32 @@ export default function UserList() {
     setEditinUser(user);
     setShowCreateBtn(true);
   };
+
+  const openDelModal=(user)=>{
+    setUserToDel(user)
+    setShowDelModal(true)
+    
+  }
+
+  const confirmDel=()=>{
+
+    setShowDelModal(false)
+
+    userServices.delUser(userToDel._id)
+    
+    setUsers(users.filter(u=>u._id!==userToDel._id))
+
+
+  }
+
+  const closeDel=()=>{
+    setUserToDel(null)
+    setShowDelModal(false)
+    
+  }
+
+
+
 
   return (
     <main className="main">
@@ -212,6 +243,7 @@ export default function UserList() {
                   user={user}
                   onInfoBtn={infoBtnClickHandler}
                   onEditBtn={() => onEditClickHandler(user)}
+                  onDelBtn={()=>openDelModal(user)}
                 />
               ))}
             </tbody>
@@ -236,6 +268,11 @@ export default function UserList() {
           initialData={editingUser}
         />
       )}
+
+      {showDelModal && (
+  <Delete userToDel={userToDel} onConfirm={confirmDel} onCloseDel={closeDel}/>
+)}
+
 
       {showInfo && (
         <Details user={selectedGetOne} onCloseInfo={() => setShowInfo(false)} />

@@ -66,4 +66,14 @@ export default {
 
     return user;
   },
+
+
+  async delUser(_id){
+       const response = await fetch(`${baseUrl}/${_id}`, {
+      method: "DELETE",
+     
+    });
+
+    
+  }
 };

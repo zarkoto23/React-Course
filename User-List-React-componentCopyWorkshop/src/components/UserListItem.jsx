@@ -1,6 +1,6 @@
 import userServices from "../services/userServices";
 
-export default function UserListItem({ user, onInfoBtn, onEditBtn }) {
+export default function UserListItem({ user, onInfoBtn, onEditBtn,onDelBtn  }) {
   return (
     <tr>
       <td>
@@ -30,7 +30,7 @@ export default function UserListItem({ user, onInfoBtn, onEditBtn }) {
             ></path>
           </svg>
         </button>
-        <button className="btn delete-btn" title="Delete">
+        <button className="btn delete-btn" title="Delete" onClick={onDelBtn}>
           <svg
             aria-hidden="true"
             focusable="false"

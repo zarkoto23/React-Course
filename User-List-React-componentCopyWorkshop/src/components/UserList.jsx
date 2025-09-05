@@ -12,10 +12,8 @@ export default function UserList() {
   const [showInfo, setShowInfo] = useState(false);
   const [selectedGetOne, setSelectedGetOne] = useState(null);
   const [editingUser, setEditinUser] = useState(null);
-  const [showDelModal, setShowDelModal]=useState(false)
-  const [userToDel, setUserToDel]=useState(null)
-
-  
+  const [showDelModal, setShowDelModal] = useState(false);
+  const [userToDel, setUserToDel] = useState(null);
 
   useEffect(() => {
     userServices.getAll().then((result) => {
@@ -62,31 +60,23 @@ export default function UserList() {
     setShowCreateBtn(true);
   };
 
-  const openDelModal=(user)=>{
-    setUserToDel(user)
-    setShowDelModal(true)
-    
-  }
+  const openDelModal = (user) => {
+    setUserToDel(user);
+    setShowDelModal(true);
+  };
 
-  const confirmDel=()=>{
+  const confirmDel = () => {
+    setShowDelModal(false);
 
-    setShowDelModal(false)
+    userServices.delUser(userToDel._id);
 
-    userServices.delUser(userToDel._id)
-    
-    setUsers(users.filter(u=>u._id!==userToDel._id))
+    setUsers(users.filter((u) => u._id !== userToDel._id));
+  };
 
-
-  }
-
-  const closeDel=()=>{
-    setUserToDel(null)
-    setShowDelModal(false)
-    
-  }
-
-
-
+  const closeDel = () => {
+    setUserToDel(null);
+    setShowDelModal(false);
+  };
 
   return (
     <main className="main">
@@ -243,7 +233,7 @@ export default function UserList() {
                   user={user}
                   onInfoBtn={infoBtnClickHandler}
                   onEditBtn={() => onEditClickHandler(user)}
-                  onDelBtn={()=>openDelModal(user)}
+                  onDelBtn={() => openDelModal(user)}
                 />
               ))}
             </tbody>
@@ -270,9 +260,12 @@ export default function UserList() {
       )}
 
       {showDelModal && (
-  <Delete userToDel={userToDel} onConfirm={confirmDel} onCloseDel={closeDel}/>
-)}
-
+        <Delete
+          userToDel={userToDel}
+          onConfirm={confirmDel}
+          onCloseDel={closeDel}
+        />
+      )}
 
       {showInfo && (
         <Details user={selectedGetOne} onCloseInfo={() => setShowInfo(false)} />

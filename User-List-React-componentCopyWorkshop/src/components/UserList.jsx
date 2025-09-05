@@ -5,6 +5,7 @@ import Pagination from "./Pagination";
 import Create from "./Create";
 import Details from "./Details";
 import Delete from "./Delete";
+import Search from "./Search";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
@@ -15,11 +16,57 @@ export default function UserList() {
   const [showDelModal, setShowDelModal] = useState(false);
   const [userToDel, setUserToDel] = useState(null);
 
+  const [allUsers, setAllUsers] = useState([]);
+
+  const [searchValue, setSearchValue] = useState("");
+  const [criteriaValue, setCriteriaValue] = useState("Not");
+
   useEffect(() => {
     userServices.getAll().then((result) => {
       setUsers(result);
+      setAllUsers(result);
     });
   }, []);
+
+  const onSearchClickHandler = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const search = formData.get("search");
+    const criteria = formData.get("criteria");
+
+    setSearchValue(search);
+    setCriteriaValue(criteria);
+
+    if (!search) {
+      return;
+    }
+
+    console.log(search, criteria);
+
+    const filteredUsers = allUsers.filter((usr) => {
+      if (criteria === "Not") {
+        return (
+          usr.firstName.toLowerCase().includes(search.toLowerCase()) ||
+          usr.lastName.toLowerCase().includes(search.toLowerCase()) ||
+          usr.email.toLowerCase().includes(search.toLowerCase()) ||
+          usr.phoneNumber.toLowerCase().includes(search.toLowerCase())
+        );
+      } else {
+        const value = usr[criteria]?.toLowerCase();
+        return value?.includes(search.toLowerCase());
+      }
+    });
+
+    setUsers(filteredUsers);
+  };
+
+  const handleClearSearch = (e) => {
+    e.preventDefault();
+
+    setUsers(allUsers);
+
+    console.log("onclear");
+  };
 
   function onCloseCreateHandler() {
     setShowCreateBtn(false);
@@ -81,51 +128,7 @@ export default function UserList() {
   return (
     <main className="main">
       <section className="card users-container">
-        <form className="search-form">
-          <h2>
-            <svg
-              aria-hidden="true"
-              focusable="false"
-              data-prefix="fas"
-              data-icon="user"
-              className="svg-inline--fa fa-user SearchBar_icon__cXpTg"
-              role="img"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 448 512"
-            >
-              <path
-                fill="currentColor"
-                d="M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z"
-              ></path>
-            </svg>
-            <span>Users</span>
-          </h2>
-          <div className="search-input-container">
-            <input
-              type="text"
-              placeholder="Please, select the search criteria"
-              name="search"
-            />
-            <button className="btn close-btn">
-              <i className="fa-solid fa-xmark"></i>
-            </button>
-
-            <button className="btn" title="Please, select the search criteria">
-              <i className="fa-solid fa-magnifying-glass"></i>
-            </button>
-          </div>
-
-          <div className="filter">
-            <span>Search Criteria:</span>
-            <select name="criteria" className="criteria">
-              <option defaultValue="">Not </option>
-              <option defaultValue="">First Name</option>
-              <option defaultValue="">Last Name</option>
-              <option defaultValue="">Email</option>
-              <option defaultValue="">Phone</option>
-            </select>
-          </div>
-        </form>
+        <Search onSearch={onSearchClickHandler} onClear={handleClearSearch} />
 
         <div>
           <table className="table">

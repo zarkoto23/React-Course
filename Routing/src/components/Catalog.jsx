@@ -96,3 +96,5 @@ fetch('https://fakestoreapi.com/products')
     </div>
   )
 }
+
+//! 1.58 min

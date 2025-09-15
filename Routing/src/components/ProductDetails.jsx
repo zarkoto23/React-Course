@@ -1,13 +1,12 @@
 import { StarIcon } from '@heroicons/react/20/solid'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
 
-const product = {
+const productTemp = {
   name: 'Basic Tee 6-Pack',
   price: '$192',
   href: '#',
-  breadcrumbs: [
-    { id: 1, name: 'Men', href: '#' },
-    { id: 2, name: 'Clothing', href: '#' },
-  ],
+
   images: [
     {
       src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
@@ -59,12 +58,27 @@ function classNames(...classes) {
 }
 
 export default function ProductDetails() {
+
+  const {productId}=useParams()
+
+  const [product, setProduct]=useState({})
+
+
+  useEffect(()=>{
+    fetch(`https://fakestoreapi.com/products/${productId}`)
+    .then(response=>response.json())
+    .then(result=>{
+      setProduct(result);
+      
+    })
+  },[productId])
+
   return (
     <div className="bg-white">
       <div className="pt-6">
         <nav aria-label="Breadcrumb">
           <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            {product.breadcrumbs.map((breadcrumb) => (
+            {/* {productTemp.breadcrumbs.map((breadcrumb) => (
               <li key={breadcrumb.id}>
                 <div className="flex items-center">
                   <a href={breadcrumb.href} className="mr-2 text-sm font-medium text-gray-900">
@@ -82,10 +96,10 @@ export default function ProductDetails() {
                   </svg>
                 </div>
               </li>
-            ))}
+            ))} */}
             <li className="text-sm">
-              <a href={product.href} aria-current="page" className="font-medium text-gray-500 hover:text-gray-600">
-                {product.name}
+              <a href={productTemp.href} aria-current="page" className="font-medium text-gray-500 hover:text-gray-600">
+                {product.title}
               </a>
             </li>
           </ol>
@@ -94,23 +108,8 @@ export default function ProductDetails() {
         {/* Image gallery */}
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-8 lg:px-8">
           <img
-            alt={product.images[0].alt}
-            src={product.images[0].src}
-            className="row-span-2 aspect-3/4 size-full rounded-lg object-cover max-lg:hidden"
-          />
-          <img
-            alt={product.images[1].alt}
-            src={product.images[1].src}
-            className="col-start-2 aspect-3/2 size-full rounded-lg object-cover max-lg:hidden"
-          />
-          <img
-            alt={product.images[2].alt}
-            src={product.images[2].src}
-            className="col-start-2 row-start-2 aspect-3/2 size-full rounded-lg object-cover max-lg:hidden"
-          />
-          <img
-            alt={product.images[3].alt}
-            src={product.images[3].src}
+            alt={product.title}
+            src={product.image}
             className="row-span-2 aspect-4/5 size-full object-cover sm:rounded-lg lg:aspect-3/4"
           />
         </div>
@@ -118,7 +117,7 @@ export default function ProductDetails() {
         {/* Product info */}
         <div className="mx-auto max-w-2xl px-4 pt-10 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.name}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.title}</h1>
           </div>
 
           {/* Options */}
@@ -136,7 +135,7 @@ export default function ProductDetails() {
                       key={rating}
                       aria-hidden="true"
                       className={classNames(
-                        reviews.average > rating ? 'text-gray-900' : 'text-gray-200',
+                        product.rating?.rate > rating ? 'text-gray-900' : 'text-gray-200',
                         'size-5 shrink-0',
                       )}
                     />
@@ -156,11 +155,11 @@ export default function ProductDetails() {
 
                 <fieldset aria-label="Choose a color" className="mt-4">
                   <div className="flex items-center gap-x-3">
-                    {product.colors.map((color) => (
+                    {productTemp.colors.map((color) => (
                       <div key={color.id} className="flex rounded-full outline -outline-offset-1 outline-black/10">
                         <input
                           defaultValue={color.id}
-                          defaultChecked={color === product.colors[0]}
+                          defaultChecked={color === productTemp.colors[0]}
                           name="color"
                           type="radio"
                           aria-label={color.name}
@@ -186,15 +185,15 @@ export default function ProductDetails() {
 
                 <fieldset aria-label="Choose a size" className="mt-4">
                   <div className="grid grid-cols-4 gap-3">
-                    {product.sizes.map((size) => (
+                    {productTemp.sizes.map((size) => (
                       <label
-                        key={size.id}
+                        key={size.name}
                         aria-label={size.name}
                         className="group relative flex items-center justify-center rounded-md border border-gray-300 bg-white p-3 has-checked:border-indigo-600 has-checked:bg-indigo-600 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-indigo-600 has-disabled:border-gray-400 has-disabled:bg-gray-200 has-disabled:opacity-25"
                       >
                         <input
                           defaultValue={size.id}
-                          defaultChecked={size === product.sizes[2]}
+                          defaultChecked={size === productTemp.sizes[2]}
                           name="size"
                           type="radio"
                           disabled={!size.inStock}
@@ -224,7 +223,7 @@ export default function ProductDetails() {
               <h3 className="sr-only">Description</h3>
 
               <div className="space-y-6">
-                <p className="text-base text-gray-900">{product.description}</p>
+                <p className="text-base text-gray-900">{productTemp.description}</p>
               </div>
             </div>
 
@@ -233,7 +232,7 @@ export default function ProductDetails() {
 
               <div className="mt-4">
                 <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                  {product.highlights.map((highlight) => (
+                  {productTemp.highlights.map((highlight) => (
                     <li key={highlight} className="text-gray-400">
                       <span className="text-gray-600">{highlight}</span>
                     </li>
@@ -246,7 +245,7 @@ export default function ProductDetails() {
               <h2 className="text-sm font-medium text-gray-900">Details</h2>
 
               <div className="mt-4 space-y-6">
-                <p className="text-sm text-gray-600">{product.details}</p>
+                <p className="text-sm text-gray-600">{product.category}</p>
               </div>
             </div>
           </div>

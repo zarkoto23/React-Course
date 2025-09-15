@@ -1,3 +1,4 @@
+import { Routes, Route } from "react-router";
 
 
 import "./App.css";
@@ -8,11 +9,6 @@ import Pricing from "./components/Pricing";
 import NotFound from "./components/NotFound";
 import Catalog from "./components/Catalog";
 
-
-
-
-
-import { Routes, Route } from "react-router";
 
 
 function App() {
@@ -30,6 +26,7 @@ function App() {
     <Route path='/catalog' element={<Catalog/>}/>
     <Route path='/contacts' element={<Contacts/>}/>
     <Route path='/pricing' element={<Pricing/>}/>
+
     <Route path='*' element={<NotFound/>}/>
 
 

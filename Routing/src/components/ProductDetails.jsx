@@ -58,7 +58,8 @@ function classNames(...classes) {
 }
 
 export default function ProductDetails() {
-
+ 
+  
   const {productId}=useParams()
 
   const [product, setProduct]=useState({})

@@ -104,16 +104,6 @@ export default function Catalog() {
 
   const [displayProducts, setDisplayProducts]=useState([])
 
-
-
-
-  console.log(searchParams.get('sortBy'));
-  console.log(Object.fromEntries(searchParams));
-
-
-
-  
-
 useEffect(()=>{
 fetch('https://fakestoreapi.com/products')
 .then(res=>res.json())

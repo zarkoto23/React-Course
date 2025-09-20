@@ -1,10 +1,18 @@
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
+import { useNavigate } from 'react-router';
 
 export default function Contacts() {
+
+  const navigate=useNavigate()
 
   const formAction=(formData)=>{
 
     console.log(Object.fromEntries(formData));
+  console.log('data is send....');
+  
+  navigate('/')
+
+  
     
   }
 

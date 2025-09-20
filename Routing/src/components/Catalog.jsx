@@ -15,7 +15,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 import { useEffect, useState } from "react"
 import CatalogItem from "./CatalogItem"
-import { Link, useSearchParams } from 'react-router'
+import { Link, useLocation, useSearchParams } from 'react-router'
 
 // const products = [
 //   {
@@ -104,6 +104,14 @@ export default function Catalog() {
 
   const [displayProducts, setDisplayProducts]=useState([])
 
+
+  //const location=useLocation()
+  //redirect:
+  
+
+
+
+  
 useEffect(()=>{
 fetch('https://fakestoreapi.com/products')
 .then(res=>res.json())

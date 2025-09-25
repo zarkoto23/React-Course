@@ -9,7 +9,7 @@ export default function GameCreate() {
 
     await gameService.create(gameData);
 
-    navigate('/games')
+    navigate("/games");
   };
 
   return (

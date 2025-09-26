@@ -7,7 +7,7 @@ import { StrictMode } from "react";
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     {/* <StrictMode> */}
-      <App />
+    <App />
     {/* </StrictMode> */}
   </BrowserRouter>
 );

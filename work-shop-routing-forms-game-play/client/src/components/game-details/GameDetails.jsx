@@ -4,31 +4,36 @@ import gameService from "../../services/gameService";
 import { Link } from "react-router";
 import CommentsShow from "../comments-show/CommentsShow";
 import CommentsAdd from "../comments-add/CommentsAdd";
+import commentService from "../../services/commentService";
 
-export default function GameDetails({
-    email
-}) {
+export default function GameDetails({ email }) {
   const [game, setGame] = useState({});
+  const [comments, setComments] = useState([]);
   const { gameId } = useParams();
-  const nav=useNavigate()
+  const nav = useNavigate();
 
   useEffect(() => {
     gameService.getOne(gameId).then((result) => {
       setGame(result);
+
+      commentService.getAll(gameId).then(setComments);
     });
   }, [gameId]);
 
-  const onDeleteClickHandler=async ()=>{
-    const hasConfirm= confirm(`Are you sure delete "${game.title}" ?`)
-    if(!hasConfirm){
-        return
+  const onDeleteClickHandler = async () => {
+    const hasConfirm = confirm(`Are you sure delete "${game.title}" ?`);
+    if (!hasConfirm) {
+      return;
     }
 
-     await gameService.remove(gameId)
+    await gameService.remove(gameId);
 
-     nav('/games')
+    nav("/games");
+  };
 
-  }
+  const commentCreateHandler = (newComment) => {
+    setComments((state) => [...state, newComment]);
+  };
 
   return (
     <section id="game-details">
@@ -41,16 +46,9 @@ export default function GameDetails({
           <p className="type">{game.category}</p>
         </div>
 
-        <p className="text">
-          {game.summary}
-        </p>
+        <p className="text">{game.summary}</p>
 
-       
-        <CommentsShow/>
-
-
-
-
+        <CommentsShow comments={comments} />
 
         {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
         <div className="buttons">
@@ -63,12 +61,11 @@ export default function GameDetails({
         </div>
       </div>
 
-
-        <CommentsAdd email={email} gameId={gameId}/>
-
-
-
-  
+      <CommentsAdd
+        onCreate={commentCreateHandler}
+        email={email}
+        gameId={gameId}
+      />
     </section>
   );
 }

@@ -64,7 +64,7 @@ export default function GameDetails({
       </div>
 
 
-        <CommentsAdd email={email}/>
+        <CommentsAdd email={email} gameId={gameId}/>
 
 
 

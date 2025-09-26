@@ -5,7 +5,9 @@ import { Link } from "react-router";
 import CommentsShow from "../comments-show/CommentsShow";
 import CommentsAdd from "../comments-add/CommentsAdd";
 
-export default function GameDetails() {
+export default function GameDetails({
+    email
+}) {
   const [game, setGame] = useState({});
   const { gameId } = useParams();
   const nav=useNavigate()
@@ -62,7 +64,7 @@ export default function GameDetails() {
       </div>
 
 
-        <CommentsAdd/>
+        <CommentsAdd email={email}/>
 
 
 

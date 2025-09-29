@@ -9,12 +9,9 @@ import { Spin } from "antd";
 export default function ChatPage() {
   const [pending, messages] = useFetch(url, []);
 
-
-  if(pending){
-    return <Spin fullscreen={true} size="large"/>
+  if (pending) {
+    return <Spin fullscreen={true} size="large" />;
   }
 
-  return (
-        <Chat messages={messages}  />
-  );
+  return <Chat messages={messages} />;
 }

@@ -1,10 +1,23 @@
-import ChatComponent  from "./components/ChatComponent"
+import { Spin } from "antd"
+import Chat  from "./components/Chat"
+import useFetch from "./hooks/useFetch"
+
+const url='http://localhost:3030/jsonstore/messenger'
 
 function App() {
+  const [pending, messages ]=useFetch(url,[])
 
   return (
     <>
-  <ChatComponent/>
+    {pending
+    ?
+  <Spin 
+  fullscreen={true}
+  size="large"
+ />
+  :
+  <Chat messages={messages} />
+    }
     </>
   )
 }

@@ -1,6 +1,4 @@
-import React from "react";
 import { Avatar, List } from "antd";
-import Link from "antd/es/typography/Link";
 const data = [
   {
     title: "Ant Design Title 1",
@@ -15,7 +13,7 @@ const data = [
     title: "Ant Design Title 4",
   },
 ];
-const ChatComponent = () => (
+const Chat = () => (
   <List
     bordered={true}
     size="large"
@@ -39,4 +37,4 @@ const ChatComponent = () => (
     )}
   />
 );
-export default ChatComponent;
+export default Chat;

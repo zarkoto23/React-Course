@@ -19,7 +19,7 @@ const Chat = () => (
     size="large"
     split={true}
     header={<h1>ChatChe</h1>}
-    loadMore={"loAdMore"}
+    loadMore={<h4>...Load More</h4>}
     itemLayout="horizontal"
     dataSource={data}
     renderItem={(item, index) => (

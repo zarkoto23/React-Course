@@ -1,18 +1,5 @@
-import { Avatar, List } from "antd";
-const data = [
-  {
-    title: "Ant Design Title 1",
-  },
-  {
-    title: "Ant Design Title 2",
-  },
-  {
-    title: "Ant Design Title 3",
-  },
-  {
-    title: "Ant Design Title 4",
-  },
-];
+import { List } from "antd";
+
 const Chat = ({ messages }) => (
   <List
     bordered={true}
@@ -24,7 +11,6 @@ const Chat = ({ messages }) => (
     renderItem={(message) => (
       <List.Item>
         <List.Item.Meta
-          avatar={<Avatar src={message.author} />}
           title={message.author}
           description={message.content}
         />
@@ -33,3 +19,5 @@ const Chat = ({ messages }) => (
   />
 );
 export default Chat;
+
+

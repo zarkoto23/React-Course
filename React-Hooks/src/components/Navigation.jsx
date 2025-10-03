@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { HomeOutlined, MessageOutlined, SendOutlined } from "@ant-design/icons";
+import { HomeOutlined, LoginOutlined, MessageOutlined, SendOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link } from "react-router";
 const items = [
@@ -20,6 +20,12 @@ const items = [
 
     key: "send",
     icon: <SendOutlined />,
+  },
+  {
+    label: <Link to="/login">Login</Link>,
+
+    key: "login",
+    icon: <LoginOutlined />,
   },
 
 ];

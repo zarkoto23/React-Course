@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { HomeOutlined, LoginOutlined, MessageOutlined, SendOutlined } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  LoginOutlined,
+  MessageOutlined,
+  SendOutlined,
+} from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link } from "react-router";
 const items = [
@@ -15,7 +20,7 @@ const items = [
     key: "chat",
     icon: <MessageOutlined />,
   },
-    {
+  {
     label: <Link to="/send">Send</Link>,
 
     key: "send",
@@ -27,7 +32,6 @@ const items = [
     key: "login",
     icon: <LoginOutlined />,
   },
-
 ];
 const Navigation = () => {
   const [current, setCurrent] = useState("mail");

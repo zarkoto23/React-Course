@@ -12,18 +12,15 @@ export default function useFetch(url, defaultState = {}) {
       .then((result) => {
         setState(Object.values(result));
       })
-      .finally(()=>{
-        setPending(false)
-      })
-    
+      .finally(() => {
+        setPending(false);
+      });
 
     return () => {
       abortController.abort();
-      
     };
   }, [url]);
 
   //pending and meesagers return
   return [pending, state];
 }
-  

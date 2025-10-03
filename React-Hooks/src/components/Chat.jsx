@@ -10,14 +10,9 @@ const Chat = ({ messages }) => (
     dataSource={messages}
     renderItem={(message) => (
       <List.Item>
-        <List.Item.Meta
-          title={message.author}
-          description={message.content}
-        />
+        <List.Item.Meta title={message.author} description={message.content} />
       </List.Item>
     )}
   />
 );
 export default Chat;
-
-

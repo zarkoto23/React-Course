@@ -4,30 +4,23 @@ import { useLogin } from "../../api/authApi";
 
 export default function Login({ onLogin }) {
   const nav = useNavigate();
-  const {login}=useLogin()
+  const { login } = useLogin();
 
-    const loginHandler = async(prevState,formData) => {
+  const loginHandler = async (_, formData) => {
+    const values = Object.fromEntries(formData);
 
-      const values=Object.fromEntries(formData)
-
-     const authData= await login(values.email, values.password)
-     
+    const authData = await login(values.email, values.password);
 
     // const email = formData.get("email");
     onLogin(authData);
 
     // nav("/games");
-
-    return values
   };
 
-
-  const [values,loginAction,isPending ]=useActionState(loginHandler,{email:'', password:''} )
-
-  
-
-
-
+  const [_, loginAction, isPending] = useActionState(loginHandler, {
+    email: "",
+    password: "",
+  });
 
   return (
     <section id="login-page" className="auth">
@@ -45,7 +38,12 @@ export default function Login({ onLogin }) {
 
           <label htmlFor="login-pass">Password:</label>
           <input type="password" id="login-password" name="password" />
-          <input type="submit" className="btn submit" value="Login" disabled={isPending}/>
+          <input
+            type="submit"
+            className="btn submit"
+            value="Login"
+            disabled={isPending}
+          />
           <p className="field">
             <span>
               If you don't have profile click <Link to="/register">here</Link>

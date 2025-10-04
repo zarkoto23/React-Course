@@ -6,15 +6,14 @@ import { useContext, useState } from "react";
 import { userContext } from "./contexts/UserContext";
 
 export default function Send() {
-
-    const [loading, setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
   const { user } = useContext(userContext);
 
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
 
   const formSubmit = async (values) => {
-    setLoading(true)
+    setLoading(true);
     await fetch("http://localhost:3030/jsonstore/messenger", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -28,9 +27,8 @@ export default function Send() {
       type: "success",
       content: "Done!",
     });
-    
-     setLoading(false)
-    
+
+    setLoading(false);
 
     // navigate("/chat");
   };

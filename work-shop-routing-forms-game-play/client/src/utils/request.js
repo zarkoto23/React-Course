@@ -1,10 +1,8 @@
- async function request(method, url, data) {
-  let options = {}
+ async function request(method, url, data,options={}) {
 
 if(method!=='GET'){
-    options={
-        method,
-    }
+    options.method=method
+    
 }
 
 if(data){

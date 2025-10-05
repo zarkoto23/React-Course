@@ -14,7 +14,7 @@ export default function Login({ onLogin }) {
     // const email = formData.get("email");
     onLogin(authData);
 
-    // nav("/games");
+    nav("/games");
   };
 
   const [_, loginAction, isPending] = useActionState(loginHandler, {

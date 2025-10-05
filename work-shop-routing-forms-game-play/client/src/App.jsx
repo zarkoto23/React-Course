@@ -14,7 +14,6 @@ function App() {
 
   const userLoginHandler = (authData) => {
     setEmail(authData.email);
-    console.log(authData);
     
   };
 

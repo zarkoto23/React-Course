@@ -2,18 +2,20 @@
 
 if(method!=='GET'){
     options.method=method
-    
+
 }
 
 if(data){
     options={
         ...options,
         headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            ...options.headers
         },
         body:JSON.stringify(data)
     }
 }
+
   const response = await fetch(url, options);
   const result = await response.json();
   
@@ -21,7 +23,7 @@ if(data){
 }
 
 export default{
-     get:(url)=>request("GET", url),
+    get: request.bind(null, 'GET'),
     post:request.bind(null, 'POST'),
     put:request.bind(null, 'PUT'),
     del:request.bind(null, 'DELETE'),

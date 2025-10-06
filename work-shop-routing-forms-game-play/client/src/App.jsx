@@ -14,12 +14,18 @@ import Logout from "./components/logout/Logout";
 function App() {
   const [authData, setAuthData] = useState({});
 
-  const userLoginHandler = (result) => { 
+  const userLoginHandler = (result) => {
     setAuthData(result);
   };
 
+  const userLogoutHandler = () => {
+    setAuthData({});
+  };
+
   return (
-    <UserContext.Provider value={{ ...authData, userLoginHandler }}>
+    <UserContext.Provider
+      value={{ ...authData, userLoginHandler, userLogoutHandler }}
+    >
       <div id="box">
         <Header />
 
@@ -33,7 +39,6 @@ function App() {
             <Route path="/games/:gameId/details" element={<GameDetails />} />
             <Route path="/games/:gameId/edit" element={<GameEdit />} />
             <Route path="/logout" element={<Logout />} />
-
 
             {/* <Route path="/games" element={<GameCatalog />} /> */}
           </Routes>

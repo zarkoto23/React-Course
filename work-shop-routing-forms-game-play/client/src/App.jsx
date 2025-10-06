@@ -9,11 +9,12 @@ import GameDetails from "./components/game-details/GameDetails";
 import GameEdit from "./components/game-edit/GameEdit";
 import { useState } from "react";
 import { UserContext } from "./contexts/UserContext";
+import Logout from "./components/logout/Logout";
 
 function App() {
   const [authData, setAuthData] = useState({});
 
-  const userLoginHandler = (result) => {
+  const userLoginHandler = (result) => { 
     setAuthData(result);
   };
 
@@ -31,6 +32,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/games/:gameId/details" element={<GameDetails />} />
             <Route path="/games/:gameId/edit" element={<GameEdit />} />
+            <Route path="/logout" element={<Logout />} />
+
 
             {/* <Route path="/games" element={<GameCatalog />} /> */}
           </Routes>

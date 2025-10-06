@@ -4,8 +4,7 @@ import { useLogin } from "../../api/authApi";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function Login() {
-
-  const {userLoginHandler}=useContext(UserContext)
+  const { userLoginHandler } = useContext(UserContext);
 
   const nav = useNavigate();
   const { login } = useLogin();

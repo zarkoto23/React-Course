@@ -1,13 +1,14 @@
-import gameService from "../../services/gameService";
 import { useNavigate } from "react-router";
+import { useCreateGame } from "../../api/gamesApi";
 
 export default function GameCreate() {
+  const { createGame } = useCreateGame();
   const navigate = useNavigate();
 
   const submitAction = async (formData) => {
     const gameData = Object.fromEntries(formData);
 
-    await gameService.create(gameData);
+    await createGame(gameData);
 
     navigate("/games");
   };

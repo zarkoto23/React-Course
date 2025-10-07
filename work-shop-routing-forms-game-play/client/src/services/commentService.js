@@ -9,6 +9,10 @@ export default {
     //Todo: filter when migrate to collections
     //client filtering(dont do this)
 
+    // if(comments.length<=0){
+    //   return
+    // }
+
     const gameComms = Object.values(comments).filter(
       (comment) => comment.gameId === gameId
     );

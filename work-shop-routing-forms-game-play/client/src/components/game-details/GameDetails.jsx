@@ -6,21 +6,19 @@ import CommentsShow from "../comments-show/CommentsShow";
 import CommentsAdd from "../comments-add/CommentsAdd";
 import commentService from "../../services/commentService";
 import { UserContext } from "../../contexts/UserContext";
+import { useGame } from "../../api/gamesApi";
 
 export default function GameDetails() {
   const { email } = useContext(UserContext);
 
-  const [game, setGame] = useState({});
   const [comments, setComments] = useState([]);
   const { gameId } = useParams();
   const nav = useNavigate();
+  const {game}=useGame(gameId)
 
   useEffect(() => {
-    gameService.getOne(gameId).then((result) => {
-      setGame(result);
-
       commentService.getAll(gameId).then(setComments);
-    });
+    
   }, [gameId]);
 
   const onDeleteClickHandler = async () => {

@@ -38,7 +38,7 @@ export const useCreate = () => {
   };
 };
 
-export const useEditGame = (gameId) => {
+export const useEditGame = () => {
   const { request } = useAuth();
 
   const edit = (gameId, gameData) =>

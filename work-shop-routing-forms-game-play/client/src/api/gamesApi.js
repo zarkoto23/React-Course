@@ -37,3 +37,24 @@ export const useCreate = () => {
     create,
   };
 };
+
+export const useEditGame = (gameId) => {
+  const { request } = useAuth();
+
+  const edit = (gameId, gameData) =>
+    request.put(`${baseUrl}/${gameId}`, { ...gameData, _id: gameId });
+
+  return {
+    edit,
+  };
+};
+
+export const useDeleteGame = () => {
+  const { request } = useAuth();
+
+  const deleteGame = (gameId) => request.delete(`${baseUrl}/${gameId}`);
+
+  return {
+    deleteGame,
+  };
+};

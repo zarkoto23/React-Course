@@ -1,4 +1,4 @@
- const request=async(method, url, data, options = {}) =>{
+const request = async (method, url, data, options = {}) => {
   if (method !== "GET") {
     options.method = method;
   }
@@ -23,12 +23,12 @@
 
   const result = await response.json();
   return result;
-}
+};
 
 export default {
   get: request.bind(null, "GET"),
   post: request.bind(null, "POST"),
   put: request.bind(null, "PUT"),
   del: request.bind(null, "DELETE"),
-  baseRequest:request
+  baseRequest: request,
 };

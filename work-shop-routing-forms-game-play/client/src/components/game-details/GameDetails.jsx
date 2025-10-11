@@ -1,33 +1,25 @@
-import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router";
 import CommentsShow from "../comments-show/CommentsShow";
 import CommentsAdd from "../comments-add/CommentsAdd";
-import commentService from "../../services/commentService";
 import { useDeleteGame, useGame } from "../../api/gamesApi";
 import useAuth from "../../hooks/useAuth";
+import { useComments, useCreate } from "../../api/commentsApi";
 
 export default function GameDetails() {
   
   const { email,_id } = useAuth()
 
-  const [comments, setComments] = useState([]);
   const { gameId } = useParams();
   const nav = useNavigate();
   const {game}=useGame(gameId)
-
   const {deleteGame}=useDeleteGame()
+  const isOwner=game?._ownerId==_id
 
+  const {comments,setComments}=useComments(gameId)
+  const {create}=useCreate(setComments)
+  
 
-  
-    const isOwner=game?._ownerId==_id
-  
-  
-  useEffect(() => {
-    commentService.getAll(gameId).then(setComments);
-
-    
-  }, [gameId]);
   
   const onDeleteClickHandler = async () => {
     
@@ -42,8 +34,13 @@ export default function GameDetails() {
     nav("/games");
   };
 
-  const commentCreateHandler = (newComment) => {
-    setComments((state) => [...state, newComment]);
+  const commentCreateHandler = (comment) => {
+    if(!_id){
+      alert('Need Loged In to add comment!')
+      return
+    }
+
+      create(gameId,comment)
   };
 
   return (

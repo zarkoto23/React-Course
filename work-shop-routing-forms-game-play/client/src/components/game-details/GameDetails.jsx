@@ -21,7 +21,6 @@ export default function GameDetails() {
 
   
     const isOwner=game?._ownerId==_id
-    console.log(isOwner);
   
   
   useEffect(() => {

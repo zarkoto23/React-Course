@@ -8,7 +8,8 @@ import { useDeleteGame, useGame } from "../../api/gamesApi";
 import useAuth from "../../hooks/useAuth";
 
 export default function GameDetails() {
-  const { email } = useAuth()
+  
+  const { email,_id } = useAuth()
 
   const [comments, setComments] = useState([]);
   const { gameId } = useParams();
@@ -17,11 +18,18 @@ export default function GameDetails() {
 
   const {deleteGame}=useDeleteGame()
 
+
+  
+    const isOwner=game?._ownerId==_id
+    console.log(isOwner);
+  
+  
   useEffect(() => {
-      commentService.getAll(gameId).then(setComments);
+    commentService.getAll(gameId).then(setComments);
+
     
   }, [gameId]);
-
+  
   const onDeleteClickHandler = async () => {
     
 
@@ -55,6 +63,8 @@ export default function GameDetails() {
         <CommentsShow comments={comments} />
 
         {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
+
+        {isOwner &&
         <div className="buttons">
           <Link to={`/games/${gameId}/edit`} className="button">
             Edit
@@ -63,6 +73,7 @@ export default function GameDetails() {
             Delete
           </button>
         </div>
+}
       </div>
 
       <CommentsAdd

@@ -7,40 +7,35 @@ import useAuth from "../../hooks/useAuth";
 import { useComments, useCreate } from "../../api/commentsApi";
 
 export default function GameDetails() {
-  
-  const { email,_id } = useAuth()
+  const { email, _id } = useAuth();
 
   const { gameId } = useParams();
   const nav = useNavigate();
-  const {game}=useGame(gameId)
-  const {deleteGame}=useDeleteGame()
-  const isOwner=game?._ownerId==_id
+  const { game } = useGame(gameId);
+  const { deleteGame } = useDeleteGame();
+  const isOwner = game?._ownerId == _id;
 
-  const {comments,setComments}=useComments(gameId)
-  const {create}=useCreate(setComments)
-  
+  const { comments, setComments } = useComments(gameId);
+  const { create } = useCreate(setComments);
 
-  
   const onDeleteClickHandler = async () => {
-    
-
     const hasConfirm = confirm(`Are you sure delete "${game.title}" ?`);
     if (!hasConfirm) {
       return;
     }
 
-    await deleteGame(gameId)
+    await deleteGame(gameId);
 
     nav("/games");
   };
 
   const commentCreateHandler = (comment) => {
-    if(!_id){
-      alert('Need Loged In to add comment!')
-      return
+    if (!_id) {
+      alert("Need Loged In to add comment!");
+      return;
     }
 
-      create(gameId,comment)
+    create(gameId, comment);
   };
 
   return (
@@ -60,16 +55,16 @@ export default function GameDetails() {
 
         {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
 
-        {isOwner &&
-        <div className="buttons">
-          <Link to={`/games/${gameId}/edit`} className="button">
-            Edit
-          </Link>
-          <button onClick={onDeleteClickHandler} className="button">
-            Delete
-          </button>
-        </div>
-}
+        {isOwner && (
+          <div className="buttons">
+            <Link to={`/games/${gameId}/edit`} className="button">
+              Edit
+            </Link>
+            <button onClick={onDeleteClickHandler} className="button">
+              Delete
+            </button>
+          </div>
+        )}
       </div>
 
       <CommentsAdd

@@ -1,6 +1,5 @@
-
-export default function CommentsAdd({onCreate }) {
-  const commentAction =  (formData) => {
+export default function CommentsAdd({ onCreate }) {
+  const commentAction = (formData) => {
     const comment = formData.get("comment");
     onCreate(comment);
   };

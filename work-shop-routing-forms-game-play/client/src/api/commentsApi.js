@@ -16,7 +16,8 @@ export const useComments = (gameId) => {
   }, [gameId]);
 
   return {
-    comments,setComments
+    comments,
+    setComments,
   };
 };
 
@@ -24,9 +25,11 @@ export const useCreate = (setComments) => {
   const { request, email } = useAuth();
 
   const create = (gameId, comment) =>
-    request.post(`${baseUrl}`, { email, gameId, comment })
-  .then((newComment)=>{setComments((prev)=>[...prev, newComment])
-  })
+    request
+      .post(`${baseUrl}`, { email, gameId, comment })
+      .then((newComment) => {
+        setComments((prev) => [...prev, newComment]);
+      });
   return {
     create,
   };

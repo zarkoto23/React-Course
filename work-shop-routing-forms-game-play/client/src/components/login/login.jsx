@@ -17,7 +17,7 @@ export default function Login() {
     // const email = formData.get("email");
     userLoginHandler(authData);
 
-    nav("/games");
+    nav(-1);
   };
 
   const [_, loginAction, isPending] = useActionState(loginHandler, {

@@ -29,13 +29,8 @@ export default function GameDetails() {
     nav("/games");
   };
 
-  const commentCreateHandler = (comment) => {
-    if (!_id) {
-      alert("Need Loged In to add comment!");
-      return;
-    }
-
-    create(gameId, comment);
+  const commentCreateHandler = async(comment) => {
+      await create(gameId, comment);
   };
 
   return (

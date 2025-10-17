@@ -9,6 +9,7 @@ import GameDetails from "./components/game-details/GameDetails";
 import GameEdit from "./components/game-edit/GameEdit";
 import Logout from "./components/logout/Logout";
 import UserProvider from "./providers/UserProvider";
+import AuthGuard from "./components/guards/AuthGuard";
 
 function App() {
   return (
@@ -20,7 +21,9 @@ function App() {
           <Routes>
             <Route index element={<Home />} />
             <Route path="/games" element={<GameCatalog />} />
-            <Route path="/games/create" element={<GameCreate />} />
+
+            <Route path="/games/create" element={<AuthGuard><GameCreate /></AuthGuard>} />
+            
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/games/:gameId/details" element={<GameDetails />} />

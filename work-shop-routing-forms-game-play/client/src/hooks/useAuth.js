@@ -24,7 +24,7 @@ export default function useAuth() {
 
   return {
     ...authData,
-    isAuth:!!authData.accessToken,
+    isAuth: !!authData.accessToken,
     request: {
       get: requestWrapper.bind(null, "GET"),
       post: requestWrapper.bind(null, "POST"),

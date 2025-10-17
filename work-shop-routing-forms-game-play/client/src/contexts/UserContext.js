@@ -10,11 +10,8 @@ export const UserContext = createContext({
   userLogoutHandler: () => null,
 });
 
+export function useUserContext() {
+  const data = useContext(UserContext);
 
-export function useUserContext(){
-  const data=useContext(UserContext)
-
-
-  return data
+  return data;
 }
-

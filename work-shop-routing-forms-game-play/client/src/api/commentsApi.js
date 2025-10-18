@@ -13,7 +13,7 @@ export const useComments = (gameId) => {
     });
 
     request.get(`${baseUrl}?${searchParams.toString()}`).then(setComments);
-  }, [gameId,request]);
+  }, [gameId, request]);
 
   return {
     comments,

@@ -29,12 +29,12 @@ export default function GameDetails() {
   };
   
   const commentCreateHandler = (comment) => {
-    create(gameId, comment);
+     create(gameId, comment);
   };
   
   const isOwner = game?._ownerId == _id;
 
-  
+
   return (
     <section id="game-details">
       <h1>Game Details</h1>

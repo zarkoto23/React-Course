@@ -13,26 +13,28 @@ export default function GameDetails() {
   const nav = useNavigate();
   const { game } = useGame(gameId);
   const { deleteGame } = useDeleteGame();
-  const isOwner = game?._ownerId == _id;
-
+  
   const { comments, setComments } = useComments(gameId);
   const { create } = useCreate(setComments);
-
+  
   const onDeleteClickHandler = async () => {
     const hasConfirm = confirm(`Are you sure delete "${game.title}" ?`);
     if (!hasConfirm) {
       return;
     }
-
+    
     await deleteGame(gameId);
-
+    
     nav("/games");
   };
-
-  const commentCreateHandler = async(comment) => {
-      await create(gameId, comment);
+  
+  const commentCreateHandler = (comment) => {
+    create(gameId, comment);
   };
+  
+  const isOwner = game?._ownerId == _id;
 
+  
   return (
     <section id="game-details">
       <h1>Game Details</h1>

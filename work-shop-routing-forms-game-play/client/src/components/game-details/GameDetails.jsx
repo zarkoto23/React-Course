@@ -5,10 +5,11 @@ import CommentsAdd from "../comments-add/CommentsAdd";
 import { useDeleteGame, useGame } from "../../api/gamesApi";
 import useAuth from "../../hooks/useAuth";
 import { useComments, useCreate } from "../../api/commentsApi";
-import { useState } from "react";
+import { useOptimistic, useState } from "react";
+import { v4 } from "uuid";
 
 export default function GameDetails() {
-  const { email, _id, isAuth } = useAuth();
+  const { email, _id, isAuth,userId } = useAuth();
 
   const { gameId } = useParams();
   const nav = useNavigate();
@@ -16,8 +17,9 @@ export default function GameDetails() {
   const { deleteGame } = useDeleteGame();
 
   const { comments, setComments } = useComments(gameId);
+  const [optimistic, setOptimistic]=useOptimistic(comments,  (currentComments, newComment) => [...currentComments, newComment])
+  
   const { create } = useCreate(setComments);
-
   const onDeleteClickHandler = async () => {
     const hasConfirm = confirm(`Are you sure delete "${game.title}" ?`);
     if (!hasConfirm) {
@@ -31,20 +33,31 @@ export default function GameDetails() {
 
   const commentCreateHandler = async (formData) => {
     const comment = formData.get("comment");
-    if (!isAuth) {
-      alert("You have to looged in!");
-      nav("/login");
 
-      return;
+    const newOptimisticComment={
+      _id:v4(),
+      comment, 
+      pending:true,
+      email
     }
+    // if (!isAuth) {
+    //   alert("You have to looged in!");
+    //   nav("/login");
 
-    if (!comment.trim()) {
-      return alert("You have to write something!");
-    }
+    //   return;
+    // }
+
+    // if (!comment.trim()) {
+    //   return alert("You have to write something!");
+    // }
+
+    setOptimistic(newOptimisticComment)
 
     const commentResult = await create(gameId, comment);
 
-    setComments((prev) => [...prev, commentResult]);
+    setComments((old) => [...old.filter(c => !c.pending), commentResult]);
+
+
   };
 
   const isOwner = game?._ownerId === _id;
@@ -62,7 +75,7 @@ export default function GameDetails() {
 
         <p className="text">{game.summary}</p>
 
-        <CommentsShow comments={comments} />
+        <CommentsShow comments={optimistic} />
 
         {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
 

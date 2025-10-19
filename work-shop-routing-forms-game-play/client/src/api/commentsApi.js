@@ -15,8 +15,8 @@ export const useComments = (gameId) => {
     request.get(`${baseUrl}?${searchParams.toString()}`).then(setComments);
   }, [gameId]);
 
-  console.log('effect');
-  
+  console.log("effect");
+
   return {
     comments,
     setComments,
@@ -26,17 +26,18 @@ export const useComments = (gameId) => {
 export const useCreate = () => {
   const { request, email } = useAuth();
 
-  const create = async(gameId, comment) =>{
-    const newComment= await request
-      .post(`${baseUrl}`, { email, gameId, comment })
+  const create = async (gameId, comment) => {
+    const newComment = await request.post(`${baseUrl}`, {
+      email,
+      gameId,
+      comment,
+    });
 
-      return newComment
+    return newComment;
+  };
 
-  }
-      
+  console.log("create");
 
-      console.log('create');
-      
   return {
     create,
   };

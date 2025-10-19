@@ -13,23 +13,30 @@ export const useComments = (gameId) => {
     });
 
     request.get(`${baseUrl}?${searchParams.toString()}`).then(setComments);
-  }, [gameId, request]);
+  }, [gameId]);
 
+  console.log('effect');
+  
   return {
     comments,
     setComments,
   };
 };
 
-export const useCreate = (setComments) => {
+export const useCreate = () => {
   const { request, email } = useAuth();
 
-  const create = (gameId, comment) =>
-    request
+  const create = async(gameId, comment) =>{
+    const newComment= await request
       .post(`${baseUrl}`, { email, gameId, comment })
-      .then((newComment) => {
-        setComments((prev) => [...prev, newComment]);
-      });
+
+      return newComment
+
+  }
+      
+
+      console.log('create');
+      
   return {
     create,
   };

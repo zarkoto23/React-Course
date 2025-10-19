@@ -5,35 +5,49 @@ import CommentsAdd from "../comments-add/CommentsAdd";
 import { useDeleteGame, useGame } from "../../api/gamesApi";
 import useAuth from "../../hooks/useAuth";
 import { useComments, useCreate } from "../../api/commentsApi";
+import { useState } from "react";
 
 export default function GameDetails() {
-  const { email, _id } = useAuth();
+  const { email, _id, isAuth } = useAuth();
 
   const { gameId } = useParams();
   const nav = useNavigate();
   const { game } = useGame(gameId);
   const { deleteGame } = useDeleteGame();
-  
+
   const { comments, setComments } = useComments(gameId);
   const { create } = useCreate(setComments);
-  
+
   const onDeleteClickHandler = async () => {
     const hasConfirm = confirm(`Are you sure delete "${game.title}" ?`);
     if (!hasConfirm) {
       return;
     }
-    
+
     await deleteGame(gameId);
-    
+
     nav("/games");
   };
-  
-  const commentCreateHandler = (comment) => {
-     create(gameId, comment);
-  };
-  
-  const isOwner = game?._ownerId == _id;
 
+  const commentCreateHandler = async (formData) => {
+    const comment = formData.get("comment");
+    if (!isAuth) {
+      alert("You have to looged in!");
+      nav("/login");
+
+      return;
+    }
+
+    if (!comment.trim()) {
+      return alert("You have to write something!");
+    }
+
+    const commentResult = await create(gameId, comment);
+
+    setComments((prev) => [...prev, commentResult]);
+  };
+
+  const isOwner = game?._ownerId === _id;
 
   return (
     <section id="game-details">
@@ -64,11 +78,7 @@ export default function GameDetails() {
         )}
       </div>
 
-      <CommentsAdd
-        onCreate={commentCreateHandler}
-        email={email}
-        gameId={gameId}
-      />
+      <CommentsAdd onCreate={commentCreateHandler} />
     </section>
   );
 }

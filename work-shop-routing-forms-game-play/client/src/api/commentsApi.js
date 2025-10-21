@@ -1,27 +1,48 @@
-import { useEffect, useState } from "react";
+import { act, useEffect, useReducer, useState } from "react";
 import useAuth from "../hooks/useAuth";
-
 const baseUrl = "http://localhost:3030/data/comments";
+
+function commentReducer(state, action) {
+  switch (action.type) {
+    case "GET_ALL":
+      return action.payload;
+
+    case "ADD_COMMENT":
+      return [...state.filter((c) => !c.pending), action.payload];
+
+    default:
+      return state;
+  }
+}
 
 export const useComments = (gameId) => {
   const { request } = useAuth();
-  const [comments, setComments] = useState([]);
+  // const [comments, setComments] = useState([]);
+
+  const [comments, dispatch] = useReducer(commentReducer, []);
 
   useEffect(() => {
+    console.log("getAll");
+
     const searchParams = new URLSearchParams({
       where: `gameId="${gameId}"`,
     });
 
-    request.get(`${baseUrl}?${searchParams.toString()}`).then(setComments);
+    request
+      .get(`${baseUrl}?${searchParams.toString()}`)
+      .then((result) => dispatch({ type: "GET_ALL", payload: result }));
   }, [gameId]);
 
   return {
     comments,
-    setComments,
+    dispatch: (commentData) =>
+      dispatch({ type: "ADD_COMMENT", payload: commentData }),
   };
 };
 
 export const useCreate = () => {
+  console.log("create");
+
   const { request, email } = useAuth();
 
   const create = async (gameId, comment) => {

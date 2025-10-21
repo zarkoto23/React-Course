@@ -6,14 +6,17 @@ export default function CommentsShow({ comments }) {
       <ul>
         {/* <!-- list all comments for current game (If any) --> */}
         {comments.length > 0 ? (
-          comments.map(({ _id, email, comment, pending }) => (
+          comments.map((com) => (
             <li
-              key={_id}
+              key={com._id ? com._id : ""}
               className="comment"
-              style={pending ? { opacity: 0.6 } : {}}
+              style={{
+                opacity: com.pending ? 0.6 : 1,
+                transition: "opacity 0.9s ease-in-out",
+              }}
             >
               <p>
-                {email}: {comment}
+                {com.email}: {com.comment}
               </p>
             </li>
           ))

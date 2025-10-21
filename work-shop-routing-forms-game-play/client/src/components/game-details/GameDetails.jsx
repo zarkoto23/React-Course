@@ -5,24 +5,24 @@ import CommentsAdd from "../comments-add/CommentsAdd";
 import { useDeleteGame, useGame } from "../../api/gamesApi";
 import useAuth from "../../hooks/useAuth";
 import { useComments, useCreate } from "../../api/commentsApi";
-import { useOptimistic, useState } from "react";
+import { useOptimistic } from "react";
 import { v4 } from "uuid";
 
 export default function GameDetails() {
-  const { email, _id, isAuth, userId } = useAuth();
+  const { email, _id, isAuth } = useAuth();
 
   const { gameId } = useParams();
   const nav = useNavigate();
   const { game } = useGame(gameId);
   const { deleteGame } = useDeleteGame();
 
-  const { comments, setComments } = useComments(gameId);
+  const { comments, dispatch } = useComments(gameId);
   const [optimistic, setOptimistic] = useOptimistic(
     comments,
     (currentComments, newComment) => [...currentComments, newComment]
   );
 
-  const { create } = useCreate(setComments);
+  const { create } = useCreate();
   const onDeleteClickHandler = async () => {
     const hasConfirm = confirm(`Are you sure delete "${game.title}" ?`);
     if (!hasConfirm) {
@@ -37,12 +37,6 @@ export default function GameDetails() {
   const commentCreateHandler = async (formData) => {
     const comment = formData.get("comment");
 
-    const newOptimisticComment = {
-      _id: v4(),
-      comment,
-      pending: true,
-      email,
-    };
     if (!isAuth) {
       alert("You have to looged in!");
       nav("/login");
@@ -53,12 +47,21 @@ export default function GameDetails() {
     if (!comment.trim()) {
       return alert("You have to write something!");
     }
+    const newOptimisticComment = {
+      _id: v4(),
+      comment,
+      pending: true,
+      email,
+    };
 
     setOptimistic(newOptimisticComment);
 
     const commentResult = await create(gameId, comment);
+    setOptimistic((current) =>
+      current.map((c) => (c.pending ? { ...commentResult, pending: false } : c))
+    );
 
-    setComments((old) => [...old.filter((c) => !c.pending), commentResult]);
+    dispatch(commentResult);
   };
 
   const isOwner = game?._ownerId === _id;
@@ -78,9 +81,7 @@ export default function GameDetails() {
 
         <CommentsShow comments={optimistic} />
 
-        {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
-
-        {isOwner && isAuth&&(
+        {isOwner && isAuth && (
           <div className="buttons">
             <Link to={`/games/${gameId}/edit`} className="button">
               Edit
@@ -92,7 +93,10 @@ export default function GameDetails() {
         )}
       </div>
 
-      <CommentsAdd onCreate={commentCreateHandler} />
+      <CommentsAdd
+        onCreate={commentCreateHandler}
+        pending={optimistic.some((c) => c.pending)}
+      />
     </section>
   );
 }

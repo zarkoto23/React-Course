@@ -80,7 +80,7 @@ export default function GameDetails() {
 
         {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
 
-        {isOwner && (
+        {isOwner && isAuth&&(
           <div className="buttons">
             <Link to={`/games/${gameId}/edit`} className="button">
               Edit

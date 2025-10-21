@@ -9,7 +9,7 @@ import { useOptimistic, useState } from "react";
 import { v4 } from "uuid";
 
 export default function GameDetails() {
-  const { email, _id, isAuth,userId } = useAuth();
+  const { email, _id, isAuth, userId } = useAuth();
 
   const { gameId } = useParams();
   const nav = useNavigate();
@@ -17,8 +17,11 @@ export default function GameDetails() {
   const { deleteGame } = useDeleteGame();
 
   const { comments, setComments } = useComments(gameId);
-  const [optimistic, setOptimistic]=useOptimistic(comments,  (currentComments, newComment) => [...currentComments, newComment])
-  
+  const [optimistic, setOptimistic] = useOptimistic(
+    comments,
+    (currentComments, newComment) => [...currentComments, newComment]
+  );
+
   const { create } = useCreate(setComments);
   const onDeleteClickHandler = async () => {
     const hasConfirm = confirm(`Are you sure delete "${game.title}" ?`);
@@ -34,30 +37,28 @@ export default function GameDetails() {
   const commentCreateHandler = async (formData) => {
     const comment = formData.get("comment");
 
-    const newOptimisticComment={
-      _id:v4(),
-      comment, 
-      pending:true,
-      email
+    const newOptimisticComment = {
+      _id: v4(),
+      comment,
+      pending: true,
+      email,
+    };
+    if (!isAuth) {
+      alert("You have to looged in!");
+      nav("/login");
+
+      return;
     }
-    // if (!isAuth) {
-    //   alert("You have to looged in!");
-    //   nav("/login");
 
-    //   return;
-    // }
+    if (!comment.trim()) {
+      return alert("You have to write something!");
+    }
 
-    // if (!comment.trim()) {
-    //   return alert("You have to write something!");
-    // }
-
-    setOptimistic(newOptimisticComment)
+    setOptimistic(newOptimisticComment);
 
     const commentResult = await create(gameId, comment);
 
-    setComments((old) => [...old.filter(c => !c.pending), commentResult]);
-
-
+    setComments((old) => [...old.filter((c) => !c.pending), commentResult]);
   };
 
   const isOwner = game?._ownerId === _id;

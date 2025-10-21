@@ -1,6 +1,4 @@
-export default function CommentsAdd({ 
-  onCreate 
-}) {
+export default function CommentsAdd({ onCreate }) {
   return (
     // {/* <!-- Bonus --> */}
     //   {/* <!-- Add Comment ( Only for logged-in users, which is not creators of the current game ) --> */}

@@ -15,8 +15,6 @@ export const useComments = (gameId) => {
     request.get(`${baseUrl}?${searchParams.toString()}`).then(setComments);
   }, [gameId]);
 
-  console.log("effect");
-
   return {
     comments,
     setComments,
@@ -35,8 +33,6 @@ export const useCreate = () => {
 
     return newComment;
   };
-
-  console.log("create");
 
   return {
     create,

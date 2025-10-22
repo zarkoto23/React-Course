@@ -1,11 +1,12 @@
 import {Component} from "react";
+import AdminComments from "./admin-comments/AdminComments";
 
 export default class Admin extends Component {
   render() {
     return (
       <>
         <h1 style={{ backgroundColor: "white" }}>Admin SectiDDDDon</h1>
-        <p>This is admin pandererrl</p>
+        <AdminComments />
       </>
     );
   }

@@ -13,6 +13,8 @@ export default function Header() {
       </h1>
       <nav>
         <Link to="/games">All games</Link>
+        <Link to="/admin">adminPanel</Link>
+
         {/* <!-- Logged-in users --> */}
         {isAuth ? (
           <div id="user">

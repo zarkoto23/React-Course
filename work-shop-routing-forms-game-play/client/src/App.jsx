@@ -12,6 +12,11 @@ import UserProvider from "./providers/UserProvider";
 import AuthGuard from "./components/guards/AuthGuard";
 import GuestGuard from "./components/guards/GuestGuard";
 
+// import Admin from "./components/admin/Admin";
+import { lazy, Suspense } from "react";
+const Admin = lazy(() => import('./components/admin/Admin'))
+
+
 function App() {
   return (
     <UserProvider>
@@ -35,6 +40,8 @@ function App() {
             </Route>
 
             <Route path="/games/:gameId/details" element={<GameDetails />} />
+
+            <Route path="/admin" element={<Suspense fallback={<p>Loading...</p>}><Admin /></Suspense>} />
           </Routes>
         </main>
       </div>

@@ -1,4 +1,6 @@
 export default function CommentsShow({ comments }) {
+  console.log(comments);
+  
   return (
     //  {/* <!-- Bonus ( for Guests and Users ) --> */}
     <div className="details-comments">
@@ -8,7 +10,7 @@ export default function CommentsShow({ comments }) {
         {comments.length > 0 ? (
           comments.map((com) => (
             <li
-              key={com._id ? com._id : ""}
+              key={com._id}
               className="comment"
               style={{
                 opacity: com.pending ? 0.6 : 1,
@@ -16,7 +18,7 @@ export default function CommentsShow({ comments }) {
               }}
             >
               <p>
-                {com._ownerId}: {com.comment}
+                {com.author.email}: {com.comment}
               </p>
             </li>
           ))

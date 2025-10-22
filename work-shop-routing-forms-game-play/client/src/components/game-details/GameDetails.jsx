@@ -5,7 +5,7 @@ import CommentsAdd from "../comments-add/CommentsAdd";
 import { useDeleteGame, useGame } from "../../api/gamesApi";
 import useAuth from "../../hooks/useAuth";
 import { useComments, useCreate } from "../../api/commentsApi";
-import { useOptimistic } from "react";
+// import { useOptimistic } from "react";
 import { v4 } from "uuid";
 
 export default function GameDetails() {
@@ -17,10 +17,12 @@ export default function GameDetails() {
   const { deleteGame } = useDeleteGame();
 
   const { comments, dispatch } = useComments(gameId);
-  const [optimistic, setOptimistic] = useOptimistic(
-    comments,
-    (currentComments, newComment) => [...currentComments, newComment]
-  );
+  // const [optimistic, setOptimistic] = useOptimistic(
+  //   comments,
+  //   (currentComments, newComment) => [...currentComments, newComment]
+  // );
+
+  
 
   const { create } = useCreate();
   const onDeleteClickHandler = async () => {
@@ -47,21 +49,23 @@ export default function GameDetails() {
     if (!comment.trim()) {
       return alert("You have to write something!");
     }
-    const newOptimisticComment = {
-      _id: v4(),
-      comment,
-      pending: true,
-      // email,
-    };
+    // const newOptimisticComment = {
+    //   _id: v4(),
+    //   comment,
+    //   pending: true,
+    //   author:{
+    //     email,
+    //   }
+    // };
 
-    setOptimistic(newOptimisticComment);
+    // setOptimistic(newOptimisticComment);
 
     const commentResult = await create(gameId, comment);
-    setOptimistic((current) =>
-      current.map((c) => (c.pending ? { ...commentResult, pending: false } : c))
-    );
+    // setOptimistic((current) =>
+    //   current.map((c) => (c.pending ? { ...commentResult, pending: false } : c))
+    // );
 
-    dispatch(commentResult);
+    dispatch({...commentResult, author:{email}});
   };
 
   const isOwner = game?._ownerId === _id;
@@ -79,7 +83,7 @@ export default function GameDetails() {
 
         <p className="text">{game.summary}</p>
 
-        <CommentsShow comments={optimistic} />
+        <CommentsShow comments={comments} />
 
         {isOwner && isAuth && (
           <div className="buttons">
@@ -95,7 +99,7 @@ export default function GameDetails() {
 
       <CommentsAdd
         onCreate={commentCreateHandler}
-        pending={optimistic.some((c) => c.pending)}
+        // pending={optimistic.some((c) => c.pending)}
       />
     </section>
   );

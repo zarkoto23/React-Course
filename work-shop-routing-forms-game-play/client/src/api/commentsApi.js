@@ -25,6 +25,7 @@ export const useComments = (gameId) => {
 
     const searchParams = new URLSearchParams({
       where: `gameId="${gameId}"`,
+      load: `author=_ownerId:users`
     });
 
     request

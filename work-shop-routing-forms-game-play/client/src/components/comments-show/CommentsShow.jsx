@@ -1,6 +1,6 @@
 export default function CommentsShow({ comments }) {
   console.log(comments);
-  
+
   return (
     //  {/* <!-- Bonus ( for Guests and Users ) --> */}
     <div className="details-comments">
@@ -14,11 +14,10 @@ export default function CommentsShow({ comments }) {
               className="comment"
               style={{
                 opacity: com.pending ? 0.6 : 1,
-                transition: "opacity 0.9s ease-in-out",
               }}
             >
               <p>
-                {com.author.email}: {com.comment}
+                {com.email}: {com.comment}
               </p>
             </li>
           ))

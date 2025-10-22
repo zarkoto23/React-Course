@@ -5,8 +5,9 @@ import CommentsAdd from "../comments-add/CommentsAdd";
 import { useDeleteGame, useGame } from "../../api/gamesApi";
 import useAuth from "../../hooks/useAuth";
 import { useComments, useCreate } from "../../api/commentsApi";
-// import { useOptimistic } from "react";
 import { v4 } from "uuid";
+
+import { useOptimistic } from "react";
 
 export default function GameDetails() {
   const { email, _id, isAuth } = useAuth();
@@ -17,12 +18,19 @@ export default function GameDetails() {
   const { deleteGame } = useDeleteGame();
 
   const { comments, dispatch } = useComments(gameId);
-  // const [optimistic, setOptimistic] = useOptimistic(
-  //   comments,
-  //   (currentComments, newComment) => [...currentComments, newComment]
-  // );
 
-  
+  const [optimistiComments, setOptimisticComments] = useOptimistic(
+    comments,
+    (currentComments, newComment) => [
+      ...currentComments,
+      {
+        _id: v4(),
+        email,
+        comment: newComment,
+        pending: true,
+      },
+    ]
+  );
 
   const { create } = useCreate();
   const onDeleteClickHandler = async () => {
@@ -49,23 +57,11 @@ export default function GameDetails() {
     if (!comment.trim()) {
       return alert("You have to write something!");
     }
-    // const newOptimisticComment = {
-    //   _id: v4(),
-    //   comment,
-    //   pending: true,
-    //   author:{
-    //     email,
-    //   }
-    // };
-
-    // setOptimistic(newOptimisticComment);
+    setOptimisticComments(comment);
 
     const commentResult = await create(gameId, comment);
-    // setOptimistic((current) =>
-    //   current.map((c) => (c.pending ? { ...commentResult, pending: false } : c))
-    // );
 
-    dispatch({...commentResult, author:{email}});
+    dispatch(commentResult);
   };
 
   const isOwner = game?._ownerId === _id;
@@ -83,7 +79,7 @@ export default function GameDetails() {
 
         <p className="text">{game.summary}</p>
 
-        <CommentsShow comments={comments} />
+        <CommentsShow comments={optimistiComments} />
 
         {isOwner && isAuth && (
           <div className="buttons">
@@ -97,10 +93,7 @@ export default function GameDetails() {
         )}
       </div>
 
-      <CommentsAdd
-        onCreate={commentCreateHandler}
-        // pending={optimistic.some((c) => c.pending)}
-      />
+      <CommentsAdd onCreate={commentCreateHandler} />
     </section>
   );
 }

@@ -51,7 +51,7 @@ export default function GameDetails() {
       _id: v4(),
       comment,
       pending: true,
-      email,
+      // email,
     };
 
     setOptimistic(newOptimisticComment);

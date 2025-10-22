@@ -16,7 +16,7 @@ export default function CommentsShow({ comments }) {
               }}
             >
               <p>
-                {com.email}: {com.comment}
+                {com._ownerId}: {com.comment}
               </p>
             </li>
           ))

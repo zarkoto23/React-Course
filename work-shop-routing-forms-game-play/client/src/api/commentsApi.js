@@ -22,7 +22,6 @@ export const useComments = (gameId) => {
   const [comments, dispatch] = useReducer(commentReducer, []);
 
   useEffect(() => {
-    console.log("getAll");
 
     const searchParams = new URLSearchParams({
       where: `gameId="${gameId}"`,
@@ -41,16 +40,17 @@ export const useComments = (gameId) => {
 };
 
 export const useCreate = () => {
-  console.log("create");
 
   const { request, email } = useAuth();
 
   const create = async (gameId, comment) => {
     const newComment = await request.post(`${baseUrl}`, {
-      email,
+      // email,
       gameId,
       comment,
     });
+
+    
 
     return newComment;
   };

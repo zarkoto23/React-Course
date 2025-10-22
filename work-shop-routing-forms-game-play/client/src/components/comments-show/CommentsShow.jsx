@@ -1,5 +1,4 @@
 export default function CommentsShow({ comments }) {
-  console.log(comments);
 
   return (
     //  {/* <!-- Bonus ( for Guests and Users ) --> */}
@@ -29,3 +28,4 @@ export default function CommentsShow({ comments }) {
     </div>
   );
 }
+

@@ -9,7 +9,7 @@ export default class Admin extends Component {
         <AdminComments />
       </>
     );
-  }
+  }  
 }
 
 // export default function Admin() {

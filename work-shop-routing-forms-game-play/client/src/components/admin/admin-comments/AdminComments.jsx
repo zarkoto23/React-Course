@@ -6,6 +6,8 @@ const commentsUrl = "http://localhost:3030/data/comments";
 
 export default class AdminComments extends Component {
   constructor(props) {
+    console.log('initialization component');
+    
     super(props);
 
     this.state = {
@@ -14,6 +16,8 @@ export default class AdminComments extends Component {
   }
 
   async componentDidMount() {
+    console.log('comp mount');
+    
     const comments = await request.get(commentsUrl);
     this.setState({ comments });
   }
@@ -28,9 +32,16 @@ export default class AdminComments extends Component {
 
   }
 
+
+  componentDidUpdate(){
+
+        console.log('update component');
+        
+  }
+
   render() {
     return (
-      <ul style={{ backgroundColor: "white" }}>
+      <ul style={{ color: "white" }}>
         {this.state.comments.map((com) => (
           <CommentItem key={com._id} 
           comment={com.comment} 

@@ -1,15 +1,21 @@
-import {Component} from "react";
+import { Component } from "react";
 import AdminComments from "./admin-comments/AdminComments";
+import { UserContext } from "../../contexts/UserContext";
 
 export default class Admin extends Component {
   render() {
     return (
-      <>
-        <h1 style={{ backgroundColor: "white" }}>Admin SectiDDDDon</h1>
-        <AdminComments />
-      </>
+      <UserContext.Consumer>
+        {(context) => (
+          <section style={{ color: "white" }}>
+            <h1 >Admin SectiDDDDon</h1>
+            <h2>Hello {context.email} </h2>
+            <AdminComments />
+          </section>
+        )}
+      </UserContext.Consumer>
     );
-  }  
+  }
 }
 
 // export default function Admin() {

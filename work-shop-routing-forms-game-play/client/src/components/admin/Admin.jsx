@@ -1,10 +1,14 @@
 import { Component } from "react";
 import AdminComments from "./admin-comments/AdminComments";
 import { UserContext } from "../../contexts/UserContext";
+import ErorrBoundry from "../../eroor-boundry/ErrorBoundry";
 
 export default class Admin extends Component {
   render() {
     return (
+      <ErorrBoundry>
+
+        
       <UserContext.Consumer>
         {(context) => (
           <section style={{ color: "white" }}>
@@ -14,6 +18,8 @@ export default class Admin extends Component {
           </section>
         )}
       </UserContext.Consumer>
+
+      </ErorrBoundry>
     );
   }
 }

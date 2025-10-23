@@ -40,6 +40,10 @@ export default class AdminComments extends Component {
   }
 
   render() {
+
+    // if(Math.random()<0.5){
+    //     throw new Error('FAIL')
+    // }
     return (
       <ul style={{ color: "white" }}>
         {this.state.comments.map((com) => (

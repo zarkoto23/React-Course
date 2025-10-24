@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import TodoItem from "./TodoItem";
 
 const initTodos = [
@@ -8,11 +8,13 @@ const initTodos = [
 ];
 
 export default function TodoList() {
+  
   const [todos, setTodos] = useState(initTodos);
 
-  const toogleTodoHandler=(todoId)=>{
+  const toogleTodoHandler=useCallback((todoId)=>{
+setTodos(state=>state.map(todo=>todoId===todo.id?{...todo, isCompleted:!todo.isCompleted}:todo))    
 
-  }
+  },[])
 
   return (
     <>
@@ -27,3 +29,5 @@ export default function TodoList() {
     </>
   );
 }
+
+// export default memo(TodoList)

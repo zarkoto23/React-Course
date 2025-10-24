@@ -1,8 +1,21 @@
-export default function TodoItem({ 
+import { memo } from "react";
+
+function TodoItem({ 
    id,
    text,
    isCompleted,
    onToggle
    }) {
-  return <li onClick={onToggle}>{text}</li>;
+
+    console.log(`${id} - > re-rernder`);
+    
+  return ( <li onClick={()=>onToggle(id)}
+   style={isCompleted? 
+   {textDecoration:'line-through'}
+   : {}}>
+  {text}
+  </li>
+   )
 }
+
+export default memo(TodoItem)

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TodoItem from "./todoItem";
+import TodoItem from "./TodoItem";
 
 const initTodos = [
   { id: 1, text: "Do homework", isCompleted: false },
@@ -10,12 +10,18 @@ const initTodos = [
 export default function TodoList() {
   const [todos, setTodos] = useState(initTodos);
 
+  const toogleTodoHandler=(todoId)=>{
+
+  }
+
   return (
     <>
       <h2>Todos</h2>
       <ul>
         {todos.map((todo) => (
-          <TodoItem {...todo} />
+          <TodoItem {...todo} 
+          onToggle={toogleTodoHandler} 
+          key={todo.id}/>
         ))}
       </ul>
     </>

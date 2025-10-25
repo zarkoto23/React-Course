@@ -17,19 +17,21 @@ export default function TodoList() {
     );
   }
 
-  const meaningOfLife = (() => {
-    function pauseComp(ms) {
-      var curr = new Date().getTime();
-      ms += curr;
-      while (curr < ms) {
-        curr = new Date().getTime();
-      }
-    }
+  // const calculateMeaningOfLife = () => {
+  //   function pauseComp(ms) {
+  //     var curr = new Date().getTime();
+  //     ms += curr;
+  //     while (curr < ms) {
+  //       curr = new Date().getTime();
+  //     }
+  //   }
 
-    pauseComp(1000);
+  //   pauseComp(1000);
 
-    return 42;
-  })()
+  //   return 42;
+  // }
+
+  // const meaningOfLife=calculateMeaningOfLife()
   
   return (
     <>
@@ -39,7 +41,7 @@ export default function TodoList() {
           <TodoItem {...todo} onToggle={toogleTodoHandler} key={todo.id} />
         ))}
       </ul>
-      {meaningOfLife}
+      {/* {meaningOfLife} */}
 
 
     </>

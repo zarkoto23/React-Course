@@ -1,4 +1,4 @@
-import { act, useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import useAuth from "../hooks/useAuth";
 const baseUrl = "http://localhost:3030/data/comments";
 
@@ -30,7 +30,7 @@ export const useComments = (gameId) => {
     request
       .get(`${baseUrl}?${searchParams.toString()}`)
       .then((result) => dispatch({ type: "GET_ALL", payload: result }));
-  }, [gameId]);
+  }, [gameId,request]);
 
   return {
     comments,

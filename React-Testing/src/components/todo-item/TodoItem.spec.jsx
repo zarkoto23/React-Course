@@ -1,5 +1,10 @@
-import { it,describe, expect } from "vitest";
+import { expect, it } from "vitest";
+import TodoItem from "./TodoItem";
 
-it('shoud be true',()=>{
+
+
+it('should display todo text',()=>{
+    console.log(document);
     expect(true).toBe(true)
+    
 })

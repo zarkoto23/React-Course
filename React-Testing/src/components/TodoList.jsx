@@ -1,57 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoItem from "./TodoItem";
+import request from "../utils/request";
 
 export default function TodoList() {
-  const [todos, setTodos] = useState({
-    todo_1: {
-      _id: "todo_1",
-      text: "Give dog a bath",
-      isCompleted: true,
-    },
-    todo_2: {
-      _id: "todo_2",
-      text: "Do laundry",
-      isCompleted: true,
-    },
-    todo_3: {
-      _id: "todo_3",
-      text: "Vacuum floor",
-      isCompleted: false,
-    },
-    todo_4: {
-      _id: "todo_4",
-      text: "Feed cat",
-      isCompleted: true,
-    },
-    todo_5: {
-      _id: "todo_5",
-      text: "Change light bulbs",
-      isCompleted: false,
-    },
-    todo_6: {
-      _id: "todo_6",
-      text: "Go to Store",
-      isCompleted: true,
-    },
-    todo_7: {
-      _id: "todo_7",
-      text: "Fill gas tank",
-      isCompleted: true,
-    },
-    todo_8: {
-      _id: "todo_8",
-      text: "Change linens",
-      isCompleted: false,
-    },
-  });
+  const [todos, setTodos] = useTodos();
+
+
+  const todoToggleHandler=(todoId)=>{
+    setTodos(state=>state.map(todo=>todo._id===todoId?{...todo,isCompleted:!todo.isCompleted}:todo))
+
+  }
 
   return (
     <>
       <ul className="divide-y divide-gray-200 px-4">
-        {Object.values(todos).map((todo) => (
-          <TodoItem key={todo._id} {...todo} />
-        ))}
+        {todos.map((todo) => 
+          <TodoItem key={todo._id} {...todo} onToggle={todoToggleHandler}/>
+        )}
       </ul>
     </>
   );
+}
+
+function useTodos() {
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    request.get("http://localhost:3030/jsonstore/todos").then((result) => {
+      const todosResult = Object.values(result);
+      setTodos(todosResult);
+    });
+  }, []);
+
+  return [todos, setTodos];
 }

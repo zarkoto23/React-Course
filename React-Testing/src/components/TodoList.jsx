@@ -47,11 +47,11 @@ export default function TodoList() {
 
   return (
     <>
-      <h2>Todo list</h2>
-
-      {Object.values(todos).map((todo) => (
-        <TodoItem key={todo._id} {...todo} />
-      ))}
+      <ul className="divide-y divide-gray-200 px-4">
+        {Object.values(todos).map((todo) => (
+          <TodoItem key={todo._id} {...todo} />
+        ))}
+      </ul>
     </>
   );
 }

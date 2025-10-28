@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import TodoItem from "./todo-item/TodoItem";
-import request from "../utils/request";
+import TodoItem from "../todo-item/TodoItem";
+import request from "../../utils/request";
 
 export default function TodoList() {
   const [todos, setTodos] = useTodos();

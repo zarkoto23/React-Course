@@ -1,5 +1,5 @@
-import { render, screen, cleanup } from '@testing-library/react'
-import { beforeEach, it, expect } from 'vitest'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
+import { beforeEach, it, expect, vi } from 'vitest'
 import * as matchers from '@testing-library/jest-dom/matchers'
 
 import TodoItem from './TodoItem'
@@ -39,6 +39,34 @@ render(<TodoItem text={'test1'}/>)
 const textEl=screen.getByText('test1')
 
 
-  expect(textEl).toBeInTheDocument();
+  expect(textEl).toHaveTextContent('test1');
 
 }) 
+
+it('shoudl be cheked when its completed',()=>{
+   render(<TodoItem isCompleted/>)
+
+   const chekBox=screen.getByRole('checkbox')
+
+   expect(chekBox).toBeChecked()
+
+})
+
+it('should be called  when clicked',()=>{
+
+    const onToggle=vi.fn()
+
+    render(<TodoItem _id='todo1' onToggle={onToggle} isCompleted={false} text={'test1'} />)
+
+    const chekBoxEl=screen.getByRole('checkbox', {name:'test1'})
+
+    fireEvent.click(chekBoxEl)
+
+    // expect(onToggle).toBeCalled()
+    // expect(onToggle).toBeCalledTimes(1)
+    expect(onToggle.mock.calls[0]).toEqual(['todo1'])
+
+
+    
+
+})

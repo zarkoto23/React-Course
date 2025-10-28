@@ -4,7 +4,7 @@ const TodoItem = ({ _id, text, isCompleted,onToggle }) => {
 
 
   return (
-    <li className="py-4">
+    <li className="todo-item py-4">
       <div className="flex items-center">
         <input
           id="todo1"

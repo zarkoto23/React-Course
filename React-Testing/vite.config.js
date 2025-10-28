@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react(),tailwindcss()],
   test:{
  environment:'jsdom',
+//  setupFiles:'src/setupTests.js',
  coverage:{
   provider:'istanbul'
  }

@@ -1,14 +1,14 @@
-import { render, screen, cleanup, fireEvent } from '@testing-library/react'
-import { beforeEach, it, expect, vi } from 'vitest'
-import * as matchers from '@testing-library/jest-dom/matchers'
+import { render, screen, cleanup, fireEvent } from "@testing-library/react";
+import { beforeEach, it, expect, vi } from "vitest";
+import * as matchers from "@testing-library/jest-dom/matchers";
 
-import TodoItem from './TodoItem'
+import TodoItem from "./TodoItem";
 
 // разширяваме expect с jest-dom matchers (за Vitest)
-expect.extend(matchers)
+expect.extend(matchers);
 beforeEach(() => {
-//   document.body.innerHTML = "";
-cleanup()
+  //   document.body.innerHTML = "";
+  cleanup();
 });
 
 // it("should display todo text", () => {
@@ -22,51 +22,47 @@ cleanup()
 //     root.render(<TodoItem text={"test1"} />);
 //   });
 
-  //   console.log("eto go", container.innerHTML);
+//   console.log("eto go", container.innerHTML);
 
 //   const textEl = document.querySelector("label span");
 
 //   expect(textEl.textContent).toBe("test1");
 // });
 
+it("should display todo txt", () => {
+  render(<TodoItem text={"test1"} />);
+  //   const textEl = document.querySelector("label span");
+  const textEl = screen.getByText("test1");
 
+  expect(textEl).toHaveTextContent("test1");
+});
 
+it("shoudl be cheked when its completed", () => {
+  render(<TodoItem isCompleted />);
 
+  const chekBox = screen.getByRole("checkbox");
 
-it('should display todo txt',()=>{
-render(<TodoItem text={'test1'}/>)
-//   const textEl = document.querySelector("label span");
-const textEl=screen.getByText('test1')
+  expect(chekBox).toBeChecked();
+});
 
+it("should be called  when clicked", () => {
+  const onToggle = vi.fn();
 
-  expect(textEl).toHaveTextContent('test1');
+  render(
+    <TodoItem
+      _id="todo1"
+      onToggle={onToggle}
+      isCompleted={false}
+      text={"test1"}
+    />
+  );
 
-}) 
+  const chekBoxEl = screen.getByRole("checkbox", { name: "test1" });
 
-it('shoudl be cheked when its completed',()=>{
-   render(<TodoItem isCompleted/>)
+  fireEvent.click(chekBoxEl);
 
-   const chekBox=screen.getByRole('checkbox')
+  // expect(onToggle).toBeCalled()
+  // expect(onToggle).toBeCalledTimes(1)
+  expect(onToggle.mock.calls[0]).toEqual(["todo1"]);
+});
 
-   expect(chekBox).toBeChecked()
-
-})
-
-it('should be called  when clicked',()=>{
-
-    const onToggle=vi.fn()
-
-    render(<TodoItem _id='todo1' onToggle={onToggle} isCompleted={false} text={'test1'} />)
-
-    const chekBoxEl=screen.getByRole('checkbox', {name:'test1'})
-
-    fireEvent.click(chekBoxEl)
-
-    // expect(onToggle).toBeCalled()
-    // expect(onToggle).toBeCalledTimes(1)
-    expect(onToggle.mock.calls[0]).toEqual(['todo1'])
-
-
-    
-
-})

@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router";
 import { useLogin } from "../../api/authApi";
 import { UserContext } from "../../contexts/UserContext";
 
+import { toast } from 'react-toastify'
+
 export default function Login() {
   const { userLoginHandler } = useContext(UserContext);
 
@@ -11,13 +13,23 @@ export default function Login() {
 
   const loginHandler = async (_, formData) => {
     const values = Object.fromEntries(formData);
-
+  try {
     const authData = await login(values.email, values.password);
-
+  
     // const email = formData.get("email");
     userLoginHandler(authData);
-
+    toast.success('sucess')
+    console.log('success');
+    
+  
     nav(-1);
+    
+  } catch (error) {
+    toast.error('eror')
+    console.log('eror');
+
+  }
+
   };
 
   const [_, loginAction, isPending] = useActionState(loginHandler, {

@@ -21,7 +21,11 @@ const request = async (method, url, data, options = {}) => {
     return;
   }
 
+
   const result = await response.json();
+    if(!response.ok){
+    throw  result
+  }
   return result;
 };
 

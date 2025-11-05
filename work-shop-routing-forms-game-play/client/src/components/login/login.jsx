@@ -26,7 +26,7 @@ export default function Login() {
     
   } catch (error) {
     toast.error('eror')
-    console.log('eror');
+    console.log('error in login comp');
 
   }
 

@@ -14,6 +14,7 @@ import GuestGuard from "./components/guards/GuestGuard";
 
 // import Admin from "./components/admin/Admin";
 import { lazy, Suspense } from "react";
+import { ToastContainer } from "react-toastify";
 const Admin = lazy(() => import('./components/admin/Admin'))
 
 
@@ -44,6 +45,7 @@ function App() {
             <Route path="/admin" element={<Suspense fallback={<p>Loading...</p>}><Admin /></Suspense>} />
           </Routes>
         </main>
+        <ToastContainer/>
       </div>
     </UserProvider>
   );
